@@ -65,5 +65,6 @@ return [
             'datatableBs5' => '<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>',
             'pdfmake' => '<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js" integrity="sha512-axXaF5grZBaYl7qiM6OMHgsgVXdSLxqq0w7F4CQxuFyrcPmn0JfnqsOtYHUun80g6mRRdvJDrTCyL8LQqBOt/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>'
         ]
-    ]
+    ],
+    'language' => []
 ];
