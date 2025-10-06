@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 //vpx_imports
+//hasAuth
+//crudDone
 class AdminUser extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, BaseTrait;
@@ -21,6 +23,7 @@ class AdminUser extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'mobile_numnber',
         'password',
     ];
 

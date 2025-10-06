@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('reset_code',7)->nullable();
             $table->dateTime('sent_at')->nullable();
             $table->json('user_access')->nullable();
+            $table->string('status',7)->default('Active');
             $table->rememberToken();
             $table->timestamps();
         });
