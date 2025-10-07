@@ -14,6 +14,7 @@
                                     <select class="form-control" name="admin_type" id="admin_type">
                                         <option value=""> -- Select -- </option>
                                         <option value="Super Admin"> Super Admin  </option>
+                                        <option value="Accountant"> Accountant  </option>
                                     </select>
                                 </div>
                             </div>

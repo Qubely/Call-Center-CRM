@@ -13,7 +13,7 @@ class AdminUserCrudController  extends Controller {
     use BaseTrait;
     public function __construct(private IAdminUserCrudRepository $iAdminUserCrudRepo) {
         $this->middleware(['auth:admin','HasSetAdminPassword','HasAdminAuth']);
-        $this->lang= 'admin.system.user';
+        $this->lang = 'admin.system.user';
     }
 
     /**

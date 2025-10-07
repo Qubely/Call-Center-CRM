@@ -16,6 +16,7 @@
                                     <select class="form-control" name="admin_type" id="admin_type">
                                         <option value=""> -- Select -- </option>
                                         <option {{($data['item']?->admin_type == 'Super Admin') ? 'selected':''}} value="Super Admin"> Super Admin  </option>
+                                        <option {{($data['item']?->admin_type == 'Accountant') ? 'selected':''}} value="Accountant"> Accountant  </option>
                                     </select>
                                 </div>
                             </div>
@@ -40,7 +41,7 @@
                              <div class="form-group text-left mb-3">
                                 <label class="form-label"> <b>{{pxLang($data['lang'],'fields.status')}}</b> <em class="required">*</em> <span id="status_error"></span></label>
                                 <div class="input-group">
-                                    <select class="form-control" name="status" id="status">
+                                    <select class="form-control" name="status" id="user_status">
                                         <option {{($data['item']?->status == 'Active') ? 'selected':''}} value="Active"> Active  </option>
                                         <option {{($data['item']?->status == 'Disabled') ? 'selected':''}} value="Disabled"> Disabled  </option>
                                     </select>

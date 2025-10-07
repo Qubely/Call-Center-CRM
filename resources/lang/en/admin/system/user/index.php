@@ -20,6 +20,12 @@ return [
     ],
     'table' => [
         'id' => 'ID',
-        'name' => 'Name'
+        'avatar' => 'Avatar',
+        'name' => 'Name',
+        'email' => 'Name',
+        'mobile_number' => 'Mobile Number',
+        'status' => 'Status',
+        'created' => 'Created',
+        'actions' => 'Actions',
     ]
 ];

@@ -30,6 +30,9 @@ class AdminLoginPostController extends Controller
         if (empty($u)) {
             return $this->response([ 'type' => "noUpdate", "title" => "User not found, try again"]);
         }
+        if($u?->status == 'Disabled') {
+            return $this->response([ 'type' => "noUpdate", "title" => "Your account was disabled, please contact admin"]);
+        }
         $remember = false;
         if(isset($request->remember) && $request->remember == "yes") {
             $remember = true;

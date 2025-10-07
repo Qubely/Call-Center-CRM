@@ -17,7 +17,6 @@ class  AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudR
 
     use BaseTrait;
     public function __construct() {
-        $this->LoadModels(['AdminUser']);
         $this->sizes =  [
             ['width'=> 400, 'height'=> 400,'com'=> 70],
             ['width'=> 80, 'height'=> 80,'com'=> 10],
@@ -33,7 +32,9 @@ class  AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudR
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(model: $this->AdminUser, id: $id);
+       $query = AdminUser::query();
+       $where = [['is_secret','=','no']];
+       return $this->getPageDefault(query: $query, id: $id,where: $where);
     }
 
 
@@ -45,7 +46,7 @@ class  AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudR
      */
     public function list($request) : JsonResponse
     {
-        $model = AdminUser::query();
+        $model = AdminUser::where([['is_secret','=','no']]);
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');

@@ -67,45 +67,45 @@ $(document).ready(function(){
     }
 
     if ($("#dtAdminUser").length > 0) {
+        const {pageLang={}} = PX?.config;
+        const {table={}} = pageLang;
         let col_draft = [
             {
                 data: 'id',
-                title: 'ID'
+                title: table?.id
             },
             {
                 data: 'image',
-                title: 'Name'
+                title: table?.avatar
             },
             {
                 data: 'name',
-                title: 'Name'
+                title: table?.name
             },
             {
                 data: 'email',
-                title: 'Email'
+                title: table?.email
             },
             {
                 data: 'mobile_number',
-                title: 'Mobile Number'
+                title: table?.mobile_number
             },
             {
                 data: 'status',
-                title: 'Status'
+                title: table?.status
             },
             {
                 data: 'created_at',
-                title: 'Created At'
+                title: table?.created
             },
 
             {
                 data: null,
-                title: 'Actions',
+                title: table?.actions,
                 class: 'text-end',
                 render: function (data, type, row) {
-                    return `<a href="${baseurl}admin/system/user/${data.id}/edit"
-                        <span class="badge rounded-pill bg-info cursor-pointer me-2">
-                            <span class="bx bxs-edit text-white fw-bold fs-14"></span>
-                        </span>
+                    return `<a href="${baseurl}admin/system/user/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
                     </a>`;
                 }
             },
@@ -114,7 +114,7 @@ $(document).ready(function(){
             select: true,
             url: 'admin/system/user/list',
             columns: col_draft,
-            pdf: [1, 2]
+            pdf: [2,3,4,5]
         });
     }
 })
@@ -152,6 +152,7 @@ function dtAdminUser(table, api, op) {
             type: "inflate_response_data"
         }
     });
-    // PX?.dowloadPdf({ ...op, btn: "downloadAdminUserPdf", dataTable: "yes" })
-    // PX?.dowloadExcel({ ...op, btn: "downloadAdminUserExcel", dataTable: "yes" })
+    console.log(PX);
+    PX?.dowloadPdf({ ...op, btn: "downloadAdminUserPdf", dataTable: "yes" })
+    PX?.dowloadExcel({ ...op, btn: "downloadAdminUserExcel", dataTable: "yes" })
 }
