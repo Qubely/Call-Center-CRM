@@ -114,5 +114,8 @@ table.dataTable.no-footer {
     transform:unset;
     margin: unset;
 }
+.form-check-input {
+    border: 1px solid gray;
+}
 
 </style>

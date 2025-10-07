@@ -23,21 +23,20 @@
     <div data-simplebar="" class="sidebar-menu-scroll">
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title">Menu</li>
                 <li class="">
                     <a href="{{url('admin/dashboard')}}" class="">
                         <i class="bx bxs-dashboard"></i>
-                        <span>Dashboard</span>
+                        <span>{{pxLang('admin.main-nav','dashboard')}}</span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-cog"></i>
-                        <span>System Core</span>
+                        <span>{{pxLang('admin.main-nav','system.core')}}</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="{{url('admin/system/user')}}">Users</a>
+                            <a href="{{url('admin/system/user')}}">{{pxLang('admin.main-nav','system.core.user')}}</a>
                         </li>
                     </ul>
                 </li>

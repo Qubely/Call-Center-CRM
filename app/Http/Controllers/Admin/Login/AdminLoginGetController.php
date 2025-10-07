@@ -14,6 +14,7 @@ class AdminLoginGetController extends Controller
     public function __construct()
     {
         $this->middleware(['guest:admin']);
+        $this->lang = 'admin.login';
     }
 
     /**
@@ -29,7 +30,8 @@ class AdminLoginGetController extends Controller
                 "success" => [ "Your password changed succesfully, please login to continue"]
             ];
         }
-        return view('admin.pages.login.index')->withErrors($data);
+        $data['lang'] = $this->lang;
+        return view('admin.pages.login.index')->with('data',$data)->withErrors($data);
     }
 
     //vpx_attach

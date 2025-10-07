@@ -40,6 +40,7 @@ return [
                     'login',
                     'dashbaord',
                     'setup',
+                    'reset',
                     'system'
                 ]
             ]
@@ -69,6 +70,9 @@ return [
         ]
     ],
     'language' => [
+        'admin.main-nav' => 'admin/layout/main-nav',
+        'admin.login' => 'admin/login/index',
+        'admin.reset' => 'admin/reset/index',
         'admin.system.user' => 'admin/system/user/index'
     ]
 ];
