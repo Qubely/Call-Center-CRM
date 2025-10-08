@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Setup\ValidateUpdateAdminPassword;
 use App\Traits\BaseTrait;
 use Illuminate\Http\Request;
 use Auth;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use App\Models\AdminUser;
 use App\Http\Requests\Admin\Setup\ValidateUpdateAdminProfile;
+use Hash;
 class AdminUserSetupController extends Controller
 {
     use BaseTrait;
@@ -22,7 +24,6 @@ class AdminUserSetupController extends Controller
             ['width'=>300, 'height'=> 300,'com'=> 90],
             ['width'=>80, 'height'=> 80,'com'=> 100],
         ];
-        $this->lang = 'admin.user.update';
     }
 
     /**
@@ -35,7 +36,7 @@ class AdminUserSetupController extends Controller
     {
         $user = Auth::user();
         $data['item'] = $user;
-        $data['lang'] = $this->lang;
+        $data['lang'] = 'admin.user.update';
         return  view('admin.pages.setup.user.index')->with("data",$data);
     }
 
@@ -49,7 +50,7 @@ class AdminUserSetupController extends Controller
     {
         $user = Auth::user();
         $data['item'] = $user;
-        $data['lang'] = $this->lang;
+        $data['lang'] = 'admin.user.pass.update';
         return  view('admin.pages.setup.pass.index')->with("data",$data);
     }
 
@@ -64,9 +65,10 @@ class AdminUserSetupController extends Controller
     */
     public function updateProfile(Request $request)
     {
+        $lang = 'admin.user.update';
         $user = AdminUser::find($request?->auth?->id);
         if (empty($user)) {
-            return $this->response([ 'type' => "noUpdate", "title" => pxLang($this->lang,'mgs.no_user')]);
+            return $this->response([ 'type' => "noUpdate", "title" => pxLang($lang,'mgs.no_user')]);
         }
         $validator = Validator::make($request->all(), (new ValidateUpdateAdminProfile())->rules($request, $user));
         if ($validator->fails()) {
@@ -98,12 +100,32 @@ class AdminUserSetupController extends Controller
             $user->save();
             $data['extraData'] = [
                 "redirect" => null,
-                "inflate" => pxLang($this->lang,'mgs.update_success')
+                "inflate" => pxLang($lang,'mgs.update_success')
             ];
             return $this->response(['type' => 'success', "data" => $data]);
         } catch (\Exception $e) {
             $this->saveError($this->getSystemError(['name' => 'update_Admin_profile_error']), $e);
             return $this->response(["type" => "wrong", "lang" => "server_wrong"]);
         }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $data['lang'] = 'admin.user.pass.update';
+        $user = AdminUser::find($request?->auth?->id);
+        if (empty($user)) {
+            return $this->response([ 'type' => "noUpdate", "title" => pxLang($data['lang'] ,'mgs.no_user')]);
+        }
+        $validator = Validator::make($request->all(), (new ValidateUpdateAdminPassword())->rules($user));
+        if ($validator->fails()) {
+            return $this->response(['type' => 'validation', 'errors' => $validator->errors()]);
+        }
+        $user->password = Hash::make($request->confirm_password);
+        $user->save();
+        $reposne['extraData'] = [
+            "inflate" =>  pxLang($data['lang'],'mgs.update_success'),
+            "redirect" => 'admin/logout'
+        ];
+        return $this->response(['type' => 'success', "data" => $reposne]);
     }
 }

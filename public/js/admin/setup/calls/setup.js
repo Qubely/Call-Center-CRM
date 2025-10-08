@@ -69,6 +69,31 @@ $(document).ready(function(){
         });
     }
 
+    if($("#frmUpdateAdminPasssword").length > 0) {
+        let rules = {
+            old_password: {
+                required: true,
+            },
+            password: {
+                required: true,
+                minlength: 8,
+            },
+            confirm_password: {
+                required: true,
+                minlength: 8,
+            },
+        };
+        PX?.ajaxRequest({
+            element: "frmUpdateAdminPasssword",
+            validation: true,
+            script: "admin/setup/password-update",
+            rules,
+            afterSuccess: {
+                type: "inflate_redirect_response_data"
+            }
+        });
+
+    }
 
     //vpx_attach
 })

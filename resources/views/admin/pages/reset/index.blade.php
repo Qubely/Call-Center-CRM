@@ -14,7 +14,7 @@
         </div>
         <div class="row align-items-center justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
-                <div class="card">
+                <div class="card call-center-card">
                     <div class="card-body p-4"  id="resetBase">
                         <div class="text-center mt-2">
                             <p class="text-muted fs-34"> {{pxLang($data['lang'],'pageTitle')}} </p>
@@ -26,7 +26,7 @@
                                     <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">
                                 </div>
                                 <div class="mt-3 text-end">
-                                    <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">{{pxLang($data['lang'],'btns.send_code')}}</button>
+                                    <button class="btn btn-primary w-sm waves-effect waves-light disBtn" disabled type="submit">{{pxLang($data['lang'],'btns.send_code')}}</button>
                                 </div>
                             </form>
                         </div>

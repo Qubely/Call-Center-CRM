@@ -14,5 +14,6 @@ Route::get('admin/setup/profile-update', [AdminUserSetupController::class,'index
 Route::post('admin/setup/profile-update', [AdminUserSetupController::class,'updateProfile']);
 
 Route::get('admin/setup/password-update', [AdminUserSetupController::class,'password'])->name('admin.user.password');
+Route::post('admin/setup/password-update', [AdminUserSetupController::class,'updatePassword']);
 
 

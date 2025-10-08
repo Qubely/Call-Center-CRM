@@ -15,7 +15,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
                 @include('errors.fragments.error-view-bs5')
-                <div class="card">
+                <div class="card call-center-card">
                     <div class="card-body p-4">
                         <div class="text-center mt-2">
                             <p class="text-muted fs-34"> {{pxLang($data['lang'],'pageTitle')}} </p>
@@ -38,7 +38,7 @@
                                     <label class="form-check-label" for="auth-remember-check">{{pxLang($data['lang'],'fields.remember')}}</label>
                                 </div>
                                 <div class="mt-3 text-end">
-                                    <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">{{pxLang($data['lang'],'fields.btn_login')}}</button>
+                                    <button class="btn btn-primary w-sm waves-effect waves-light disBtn" disabled type="submit">{{pxLang($data['lang'],'fields.btn_login')}}</button>
                                 </div>
                             </form>
                         </div>

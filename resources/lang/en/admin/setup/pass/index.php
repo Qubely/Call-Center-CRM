@@ -1,14 +1,18 @@
 <?php
 return [
-    'pageTitle' => 'Profile Setup',
+    'pageTitle' => 'Password Update',
     'pageSubTitle' => '',
     'add' => '',
     'update' => '',
     'breadCum' => [
-        'title' => 'Profile Setup',
-        'b1' => '',
-        'b2' => '',
+        'title' => 'Password Update',
+        'b1' => 'User',
+        'b2' => 'Password Update',
         'b3' => ''
+    ],
+    'mgs' => [
+        'no_user' => 'User not found, try again',
+        'update_success' => 'Updated successfully'
     ],
     'titles' => [
         'uploaded_image' => 'Uploaded image',
@@ -18,12 +22,9 @@ return [
         'update' => 'Update'
     ],
     'fields' => [
-        'name' => 'Name',
-        'mobile_number' => 'Mobile Number',
-        'user_image' => 'Avatar',
-        'email' => 'Email',
-        'password' => 'Password',
-        'confim_password' => 'Confirm Password',
+        'old_password' => 'Old Password',
+        'password' => 'New Password',
+        'confirm_password' => 'Confirm Pasword',
     ],
     'table' => [
     ]

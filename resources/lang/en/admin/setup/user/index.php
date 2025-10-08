@@ -6,8 +6,8 @@ return [
     'update' => '',
     'breadCum' => [
         'title' => 'Profile Update',
-        'b1' => '',
-        'b2' => '',
+        'b1' => 'User',
+        'b2' => 'Profile Update',
         'b3' => ''
     ],
     'mgs' => [

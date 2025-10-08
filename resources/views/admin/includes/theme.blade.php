@@ -117,5 +117,13 @@ table.dataTable.no-footer {
 .form-check-input {
     border: 1px solid gray;
 }
+.p-link {
+    color: gray;
+}
+
+.p-link.p-link-active {
+    color: #049410 !important;
+    border-top: 3px solid #049410;
+}
 
 </style>

@@ -9,51 +9,65 @@
         </ol>
     </div>
 @endsection
+<div id="pageSideBar" class="pageSideBar">
+    <a href="javascript:void(0)" class="closebtn closeNav">×</a>
+    @include('admin.pages.setup.navs.user-navs')
+</div>
 <div class="thepage">
 	<div id="defaultPage" class="pages">
 		<div class="data-summary">
-			<div class="card p-2">
-				<form id="frmAdminUpdateProfile" autocomplete="off">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card p-2 shadow-card card-border">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group text-left mb-3">
-                                                    <label class="form-label"> <b> {{pxLang($data['lang'],'fields.name')}}   </b> <em class="required">*</em> <span id="name_error"> </span></label>
-                                                    <div class="input-group">
-                                                        <input type="text"  class="form-control" name="name" id="name" value="{{$data['item']->name}}">
+			<div class="card">
+                <div class="d-none d-md-block mb-4">
+                    @include('admin.pages.setup.navs.user-navs')
+                </div>
+                <div class="d-block d-md-none">
+					<div class="d-flex flex-row justify-content-end align-items-center p-2">
+						<span class="fs-18 openNav" style="cursor:pointer">&#9776;</span>
+					</div>
+				</div>
+				<div class="p-2">
+                    <form id="frmUpdateAdminPasssword" autocomplete="off">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card p-2 shadow-card card-border">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b> {{pxLang($data['lang'],'fields.old_password')}}   </b> <em class="required">*</em> <span id="old_password_error"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="password"  class="form-control" name="old_password" id="old_password">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b> {{pxLang($data['lang'],'fields.password')}}   </b> <em class="required">*</em> <span id="password_error"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="password"  class="form-control" name="password" id="password">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group text-left mb-3">
+                                                        <label class="form-label"> <b> {{pxLang($data['lang'],'fields.confirm_password')}}   </b> <em class="required">*</em> <span id="confirm_password"> </span></label>
+                                                        <div class="input-group">
+                                                            <input type="password"  class="form-control" name="confirm_password" id="confirm_password">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group text-left mb-3">
-                                                    <label class="form-label"> <b> {{pxLang($data['lang'],'fields.name')}}   </b> <em class="required">*</em> <span id="name_error"> </span></label>
-                                                    <div class="input-group">
-                                                        <input type="text"  class="form-control" name="name" id="name" value="{{$data['item']->name}}">
-                                                    </div>
-                                                </div>
+                                            <div class="mb-3 mt-3 text-end">
+                                                <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-save"></i>  {{pxLang($data['lang'],'btns.update')}}  </button>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group text-left mb-3">
-                                                    <label class="form-label"> <b> {{pxLang($data['lang'],'fields.name')}}   </b> <em class="required">*</em> <span id="name_error"> </span></label>
-                                                    <div class="input-group">
-                                                        <input type="text"  class="form-control" name="name" id="name" value="{{$data['item']->name}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 mt-3 text-end">
-                                            <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-save"></i>  {{pxLang($data['lang'],'btns.update')}}  </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
 			</div>
 		</div>
 	</div>
