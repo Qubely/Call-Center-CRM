@@ -22,7 +22,7 @@ return [
         'id' => 'ID',
         'avatar' => 'Avatar',
         'name' => 'Name',
-        'email' => 'Name',
+        'email' => 'Email',
         'mobile_number' => 'Mobile Number',
         'status' => 'Status',
         'created' => 'Created',
