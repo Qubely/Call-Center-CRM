@@ -8,6 +8,7 @@
 			<div class="card">
 				<div class="card-body">
 					We Will Build an Awesome Dashboard Later
+                    <button class="testSocket"> Test Socket </button>
 				</div>
 			</div>
 		</div>

@@ -14,12 +14,13 @@ class AdminLogoutController extends Controller
     public function __construct()
     {
         $this->middleware(['auth:admin','HasSetAdminPassword','HasAdminAuth']);
+        $this->lang = 'admin.logout';
     }
 
     public function logout(Request $request) : RedirectResponse
     {
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login.index')->withErrors(["success" => [0 => "Succesfully logged out from the system"]]);
+        return redirect()->route('admin.login.index')->withErrors(["success" => [0 => pxLang($this->lang,'mgs.logout_sucess')]]);
 
     }
     //vpx_attach

@@ -90,7 +90,7 @@ class AdminProfileSetupController extends Controller
             $user->save();
             $data['extraData'] = [
                 "redirect" => 'admin/dashboard',
-                "inflate" => 'Updated succesfully'
+                "inflate" =>  pxLang($this->lang,'mgs.update_success')
             ];
             return $this->response(['type' => 'success', "data" => $data]);
         } catch (\Exception $e) {

@@ -29,7 +29,7 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="bx bx-bell"></i>
-                    <span class="badge bg-danger rounded-pill">0</span>
+                    <span class="badge bg-danger rounded-pill" id="notiCount">0</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown" style="">
                     <div class="p-3">
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="max-height: 230px;" class="">
+                    <div  class="" id="notificationBar">
                        <a href="javascript:void(0);" class="text-dark notification-item">
                             <div class="d-flex align-items-start">
                                 <div class="flex-shrink-0 me-3">
