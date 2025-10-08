@@ -14,7 +14,7 @@ class ValidateAdminLogin extends FormRequest
     use BaseTrait;
     public function __construct()
     {
-        
+        $this->lang = 'admin.login';
     }
 
     /**
@@ -41,7 +41,7 @@ class ValidateAdminLogin extends FormRequest
                         $this->u =  AdminUser::where([['email', '=', $request->email]])->first();
                         $this->attempt_to = 'email';
                         if (empty($this->u)) {
-                            $fail('No user found');
+                            $fail(pxLang($this->lang,'mgs.no_user'));
                         }
                     } else {
                         if (is_numeric($request->email)) {
@@ -49,13 +49,13 @@ class ValidateAdminLogin extends FormRequest
                                 $this->u = AdminUser::where([['mobile_number', '=', $request->email]])->first();
                                 $this->attempt_to = 'email';
                                 if (empty($this->u)) {
-                                    $fail('No user found');
+                                    $fail(pxLang($this->lang,'mgs.no_user'));
                                 }
                             } else {
-                                $fail('Number not valid');
+                                $fail(pxLang($this->lang,'mgs.no_user'));
                             }
                         } else {
-                            $fail('Must be a valid email or mobile number');
+                            $fail(pxLang($this->lang,'mgs.must_valid_email'));
                         }
                     }
                 },
@@ -63,12 +63,10 @@ class ValidateAdminLogin extends FormRequest
             "password" => 'required|min:8',
         ];
     }
-    
+
     public function messages()
     {
         return [
-            'password.required' => Lang::get('common.errors.required'),
-            'password.min' => Lang::get('common.errors.min',["digits"=> 8])
         ];
     }
 

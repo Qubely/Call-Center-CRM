@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Logout\AdminLogoutGetController;
+use App\Http\Controllers\Admin\Logout\AdminLogoutController;
 
 //vpx_imports
 
-Route::get('admin/logout', [AdminLogoutGetController::class,'logout'])->name('admin.logout');
+Route::get('admin/logout', [AdminLogoutController::class,'logout'])->name('admin.logout');
 
 //vpx_attach

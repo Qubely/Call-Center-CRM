@@ -48,8 +48,8 @@ class AdminResetController extends Controller
             $user->reset_code = $code;
             $user->sent_at = Carbon::now()->format('Y-m-d H:i:s');
             $user->save();
-            $data['lang'] = $this->lang;
-            Mail::send('admin.pages.reset.mail.send-reset-code', ['code'=>$code,'data' => $data], function ($message) use ($request, $user) {
+            $lang = $this->lang;
+            Mail::send('admin.pages.reset.mail.send-reset-code', ['code'=>$code,'lang' => $lang], function ($message) use ($request, $user) {
                 $message->subject(pxLang($this->lang,'fields.email_title'));
                 $message->from(config('i.service_email'), config('i.service_name'));
                 $message->to([$user->email], pxLang($this->lang,'fields.email_title'));
@@ -57,7 +57,7 @@ class AdminResetController extends Controller
             $data['extraData'] = [
                 "inflate" => pxLang($this->lang,'mgs.code_success'),
             ];
-            $data['view'] = View::make('admin.pages.reset.mail.verfy-code', compact('user'))->render();
+            $data['view'] = View::make('admin.pages.reset.mail.verfy-code', compact('user','lang'))->render();
             return $this->response(['type' => "success", 'data' => $data]);
         } catch (\Exception $e) {
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($this->lang,'','common.went_wrong'), 'content' => $e->getMessage()]);
@@ -83,7 +83,8 @@ class AdminResetController extends Controller
         $data['extraData'] = [
             "inflate" => pxLang($this->lang,'mgs.success'),
         ];
-        $data['view'] = View::make('admin.pages.reset.mail.set-password', compact('user'))->render();
+        $lang = $this->lang;
+        $data['view'] = View::make('admin.pages.reset.mail.set-password', compact('user','lang'))->render();
         return $this->response(['type' => "success", 'data' => $data]);
     }
 

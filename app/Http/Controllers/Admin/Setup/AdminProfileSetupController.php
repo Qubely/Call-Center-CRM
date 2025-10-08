@@ -3,30 +3,50 @@
 namespace App\Http\Controllers\Admin\Setup;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Setup\ValidateUpdateAdminProfileSetup;
 use App\Traits\BaseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
+use Webpatser\Uuid\Uuid;
+use App\Http\Requests\Admin\Setup\ValidateUpdateAdminProfileSetup;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use File;
-use Webpatser\Uuid\Uuid; 
-use Image;
-use Lang;
 use Illuminate\Http\JsonResponse;
 use App\Models\AdminUser;
-class AdminProfileSetupPostController extends Controller
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+
+class AdminProfileSetupController extends Controller
 {
     use BaseTrait;
     public function __construct()
     {
-        $this->LoadMiddleware('HasAdminAuth');
-        $this->sizes =  [
+       $this->middleware(['auth:admin','HasAdminAuth']);
+       $this->sizes =  [
             ['width'=>300, 'height'=> 300,'com'=> 90],
             ['width'=>80, 'height'=> 80,'com'=> 100],
-        ];
+       ];
+       $this->lang = 'admin.profile.setup';
     }
-    
+
     /**
+     * View Admin profile setup
+     *
+     * @param Request $request
+     * @return View
+    */
+    public function index(Request $request) :  RedirectResponse | View
+    {
+        $user = Auth::user();
+        if($user->setup_done == "yes") {
+            return redirect()->route('admin.dashboard.index');
+        }
+        $data['item'] = $user;
+        $data['lang'] = $this->lang;
+        return  view('admin.pages.setup.index')->with("data",$data);
+    }
+
+     /**
      * Admin Profile Update
      *
      * @param  Request $request
@@ -36,7 +56,7 @@ class AdminProfileSetupPostController extends Controller
     {
         $user = AdminUser::find($request?->auth?->id);
         if (empty($user)) {
-            return $this->response([ 'type' => "noUpdate", "title" => "User not found, try again"]);
+            return $this->response([ 'type' => "noUpdate", "title" => pxLang($this->lang,'mgs.no_user')]);
         }
         $validator = Validator::make($request->all(), (new ValidateUpdateAdminProfileSetup())->rules($request, $user));
         if ($validator->fails()) {
@@ -55,7 +75,7 @@ class AdminProfileSetupPostController extends Controller
                     'path' => $path,
                     'image_link' => $user->image,
                     'extension' => $user->extension,
-                    'sizes' =>  $this->sizes 
+                    'sizes' =>  $this->sizes
                 ]);
                 $image_link = (string) Uuid::generate(4);
                 $extension = $image->getClientOriginalExtension();

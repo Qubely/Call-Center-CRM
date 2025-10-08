@@ -8,7 +8,7 @@ use Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Traits\BaseTrait;
 //vpx_imports
-class AdminLogoutGetController extends Controller
+class AdminLogoutController extends Controller
 {
     use BaseTrait;
     public function __construct()
@@ -20,7 +20,7 @@ class AdminLogoutGetController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login.index')->withErrors(["success" => [0 => "Succesfully logged out from the system"]]);
-    
+
     }
     //vpx_attach
 }

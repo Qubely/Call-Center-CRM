@@ -73,6 +73,9 @@ return [
         'admin.main-nav' => 'admin/layout/main-nav',
         'admin.login' => 'admin/login/index',
         'admin.reset' => 'admin/reset/index',
+        'admin.profile.setup' => 'admin/setup/index',
+        'admin.user.update' => 'admin/setup/user/index',
+        'admin.user.pass.update' => 'admin/setup/pass/index',
         'admin.system.user' => 'admin/system/user/index'
     ]
 ];

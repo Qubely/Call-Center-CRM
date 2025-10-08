@@ -26,7 +26,7 @@
                                     <input type="text" class="form-control" id="email" name="email" placeholder="{{pxLang($data['lang'],'fields.email_palceholder')}}">
                                 </div>
                                 <div class="mt-3 text-end">
-                                    <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">{{pxLang($data['lang'],'fields.btn_send_code')}}</button>
+                                    <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">{{pxLang($data['lang'],'btns.send_code')}}</button>
                                 </div>
                             </form>
                         </div>

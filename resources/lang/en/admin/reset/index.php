@@ -4,6 +4,10 @@ return [
     'pageSubTitle' => '',
     'add' => '',
     'update' => '',
+    'titles' => [
+        'set_new_pass' => 'Set New Password',
+        'vf_reset_code' => 'Verify Reset Code'
+    ],
     'mgs' => [
         'no_user' => 'User not found with this number, try again',
         'code_success' => 'Code sent sucesfully',
@@ -17,11 +21,18 @@ return [
         'b2' => '',
         'b3' => ''
     ],
+    'btns' => [
+        'send_code' => 'Send Code',
+        'change_pass' => 'Change Password',
+        'vfcode' => 'Verify Code',
+    ],
     'fields' => [
         'email' => 'Email',
+        'code' => 'Code',
+        'password' => 'Password',
+        'new_pass' => 'New Password',
         'email_palceholder' => 'Enter Email',
         'remember' => 'Remember Me',
-        'btn_send_code' => 'Send Code',
         'email_title' => 'Password Reset',
         'email_body_title' => 'YOUR PASSWORD RESET CODE'
     ],
