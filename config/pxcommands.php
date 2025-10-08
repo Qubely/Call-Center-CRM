@@ -75,7 +75,7 @@ return [
         'admin.profile.setup' => 'admin/setup/index',
         'admin.user.update' => 'admin/setup/user/index',
         'admin.user.pass.update' => 'admin/setup/pass/index',
-        'admin.user.nav' => 'admin/setup/pass/index',
+        'admin.user.nav' => 'admin/setup/navs/index',
         'admin.system.user' => 'admin/system/user/index'
     ]
 ];
