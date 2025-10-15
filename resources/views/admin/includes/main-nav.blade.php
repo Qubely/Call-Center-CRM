@@ -31,6 +31,17 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bxs-user"></i>
+                        <span>{{pxLang('admin.main-nav','client.management')}}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('admin/client/client-list')}}">{{pxLang('admin.main-nav','client.management.list')}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-cog"></i>
                         <span>{{pxLang('admin.main-nav','system.core')}}</span>
                     </a>

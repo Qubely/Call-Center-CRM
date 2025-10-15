@@ -5,5 +5,7 @@ return [
     'system.core' => 'System Core',
     'system.core.user_role' => 'User Roles',
     'system.core.user' => 'Users',
-    'system.core.user_policy' => 'User Policies'
+    'system.core.user_policy' => 'User Policies',
+    'client.management' => 'Client Management',
+    'client.management.list' => 'Client List'
 ];
