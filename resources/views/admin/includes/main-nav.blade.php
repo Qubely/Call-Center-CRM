@@ -29,6 +29,17 @@
                         <span>{{pxLang('admin.main-nav','dashboard')}}</span>
                     </a>
                 </li>
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-building-house"></i>
+                        <span>{{pxLang('admin.main-nav','company')}}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('admin/company/list')}}">{{pxLang('admin.main-nav','company.list')}}</a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-cog"></i>

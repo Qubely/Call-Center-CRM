@@ -4,7 +4,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-define('V','1.0.1');
+define('V','1.0.2');
 
 require __DIR__.'/../vendor/autoload.php';
 
