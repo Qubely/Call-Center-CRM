@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use DB;
 class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCrudRepository {
 
     use BaseTrait;
@@ -39,6 +40,13 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
     public function list($request) : JsonResponse
     {
         $model = LibCountry::query();
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: 'LibCountry was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -55,6 +63,7 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
      */
     public function store($request) : JsonResponse
     {
+        DB::beginTransaction();
         try {
             LibCountry::create([
                 ...$request->all(),
@@ -63,8 +72,11 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
                 'serial' => $this->facSrWc($this->LibCountry)
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
+            $this->saveTractAction($this->getTrackData(title: "A new country was created by ".$request?->auth?->name,request: $request));
+            DB::commit();
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
+            DB::rollback();
             $this->saveError($this->getSystemError(['name' => 'LibCountry_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
@@ -83,17 +95,22 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
+        $rowRef = [...$row->toArray()];
         $row->fill([...$request->all(),'last_updated_by' => $request->auth->id]);
         if($row->isDirty()){
             $validator = Validator::make($request->all(), (new ValidateUpdateLibCountry())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
+            DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+                $this->saveTractAction($this->getTrackData(title: " Country ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
+                DB::commit();
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
+                DB::rollback();
                 $this->saveError($this->getSystemError(['name'=>'LibCountry_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
@@ -116,17 +133,24 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
             foreach ($i as $key => $value) {
                 $value->serial = $request->serial[$value->id];
                 if ($value->isDirty()) {
-                    $dirty[$key] = "yes";
+                    $dirty[$value->id] = "yes";
                 }
             }
             if (count($dirty) > 0) {
-                foreach ($i as $key => $value) {
-                    $value->save();
+                DB::beginTransaction();
+                try {
+                    foreach ($i as $key => $value) {
+                        $value->save();
+                    }
+                    $response['extraData'] = ["inflate" => pxLang($request->lang,'','common.action_update_success'),'data' => $request->all()];
+                    $this->saveTractAction($this->getTrackData(title: "LibCountry list was updated ".$request?->auth?->name, request: $request));
+                    DB::commit();
+                    return $this->response(['type' => 'success', 'data' => $response]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    $this->saveError($this->getSystemError(['name' => 'LibCountry_bulk_update_error']), $e);
+                    return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
                 }
-                $data['extraData'] = [
-                    "inflate" => pxLang($request->lang,'','common.action_update_success')
-                ];
-                return $this->response(['type' => 'success','data' => $data]);
             } else {
                 return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').'  </span>']);
             }
@@ -159,14 +183,24 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
             if (count($errors) > 0) {
                 return $this->response(['type'=>'bigError','errors'=>$errors]);
             }
-            foreach ($i as $key => $value) {
-                $value->delete();
+            DB::beginTransaction();
+            try {
+                foreach ($i as $key => $value) {
+                    $value->delete();
+                }
+                $data['extraData'] = [
+                    "inflate" => pxLang($request->lang,'','common.action_delete_success'),
+                    "redirect" => null
+                ];
+                $this->saveTractAction($this->getTrackData(title: "LibCountry list was updated ".$request?->auth?->name, request: $request));
+                DB::commit();
+                return $this->response(['type' => 'success',"data"=>$data]);
+            } catch (\Exception $e) {
+                DB::rollback();
+                $this->saveError($this->getSystemError(['name' => 'UqProfession_store_error']), $e);
+                return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
             }
-            $data['extraData'] = [
-                "inflate" => pxLang($request->lang,'','common.action_delete_success'),
-                "redirect" => null
-            ];
-            return $this->response(['type' => 'success',"data"=>$data]);
+
         } else {
             return $this->response(['type' => 'noUpdate', 'title' =>  pxLang($request->lang,'','common.no_data_selected')]);
         }

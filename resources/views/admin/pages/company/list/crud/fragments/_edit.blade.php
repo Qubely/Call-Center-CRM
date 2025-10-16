@@ -32,8 +32,8 @@
                                 <div class="input-group">
                                     <select class="form-control" name="time_zone" id="time_zone">
                                         <option value="">-- Select -- </option>
-                                        @foreach ($data['timeZones']  as $item)
-                                            <option {{($data['item']?->time_zone == $item?->name) ? 'selected':''}} value="Bangladesh"> Bangladesh </option>
+                                        @foreach ($data['timeZones'] as $item)
+                                            <option {{($data['item']?->time_zone == $item?->name) ? 'selected':''}} value="{{$item?->name}}"> {{$item?->name}} </option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -39,6 +39,13 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
     public function list($request) : JsonResponse
     {
         $model = Company::query();
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: 'Company was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -130,7 +137,6 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
             } else {
                 return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').'  </span>']);
             }
-
         } else {
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.went_wrong')]);
         }
