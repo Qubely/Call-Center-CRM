@@ -30,7 +30,9 @@
                                 <div class="input-group">
                                     <select class="form-control" name="time_zone" id="time_zone">
                                         <option value="">-- Select -- </option>
-                                        <option value="+6 GMT"> +6 GMT </option>
+                                        @foreach ($data['timeZones']  as $item)
+                                            <option value="{{$item?->name}}"> {{$item?->name}} </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

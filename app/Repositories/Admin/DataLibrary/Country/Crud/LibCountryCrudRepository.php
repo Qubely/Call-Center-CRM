@@ -114,7 +114,7 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
         $dirty = [];
         if (count($i) > 0) {
             foreach ($i as $key => $value) {
-                //$value->serial = $request->serial[$value->id];
+                $value->serial = $request->serial[$value->id];
                 if ($value->isDirty()) {
                     $dirty[$key] = "yes";
                 }

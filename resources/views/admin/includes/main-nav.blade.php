@@ -49,6 +49,9 @@
                         <li>
                             <a href="{{url('admin/data-library/country')}}">{{pxLang('admin.main-nav','data-library.country-list')}}</a>
                         </li>
+                         <li>
+                            <a href="{{url('admin/data-library/time-zone')}}">{{pxLang('admin.main-nav','data-library.time-zone')}}</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
