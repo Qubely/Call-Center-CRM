@@ -5,12 +5,10 @@
             @if($data['item'] != null || $data['type'] != "edit")
                 <div class="">
                     @include('admin.pages.company.list.crud.fragments._breadcum')
-                    
                     <div class="page-block-body">
                         @if($data['type'] == "add")
                             @include('admin.pages.company.list.crud.fragments._actions')
                             <div class="card rounded page-block">
-                                
                                 <div id="defaultPage" class="table-list pages">
                                     <div class="mt-2 p-2 p-md-4">
                                         <input type="hidden" id="page-lang" value="{{ json_encode(Lang::get(config('pxcommands.language')[$data['lang']])) }}" />
