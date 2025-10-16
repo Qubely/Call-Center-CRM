@@ -1,62 +1,59 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Company\List\Crud;
+namespace App\Http\Controllers\Admin\DataLibrary\Country\Crud;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Company\List\Crud\ValidateStoreCompany;
-use App\Models\LibCountry;
-use App\Repositories\Admin\Company\List\Crud\ICompanyCrudRepository;
+use App\Http\Requests\Admin\DataLibrary\Country\Crud\ValidateStoreLibCountry;
+use App\Repositories\Admin\DataLibrary\Country\Crud\ILibCountryCrudRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-class CompanyCrudController  extends Controller {
+class LibCountryCrudController  extends Controller {
 
     use BaseTrait;
-    public function __construct(private ICompanyCrudRepository $iCompanyCrudRepo) {
+    public function __construct(private ILibCountryCrudRepository $iLibCountryCrudRepo) {
         $this->middleware(['auth:admin','HasAdminUserPassword','HasAdminUserAuth']);
-        $this->lang= 'admin.company.list.crud';
+        $this->lang= 'admin.data-library.country.crud';
         $this->middleware(function ($request, $next) {
             $request->merge(['lang' => $this->lang]);
             return $next($request);
         });
-        $this->countries =  LibCountry::select(['id','name'])->get();
 
     }
 
     /**
-     * Index page for company crud
+     * Index page for libcountry crud
      *
      * @param Request $request
      * @return View
      */
     public function index(Request $request) : View
     {
-        $data = $this->iCompanyCrudRepo->index($request);
+        $data = $this->iLibCountryCrudRepo->index($request);
         $data['lang'] = $this->lang;
-        $data['countries'] = $this->countries;
-        return view('admin.pages.company.list.crud.index',compact('data'));
+        return view('admin.pages.data-library.country.crud.index',compact('data'));
     }
 
     /**
-     * List items for yajra datatable for company crud
+     * List items for yajra datatable for libcountry crud
      *
      * @param Request $request
      * @return JsonResponse
      */
     public function list(Request $request) : JsonResponse
     {
-        return  $this->iCompanyCrudRepo->list($request);
+        return  $this->iLibCountryCrudRepo->list($request);
     }
 
     /**
      * Store procedure for comapany crud
      *
-     * @param ValidateStorecompany $request
+     * @param ValidateStorelibcountry $request
      * @return JsonResponse
      */
-    public function store(ValidateStoreCompany $request): JsonResponse
+    public function store(ValidateStoreLibCountry $request): JsonResponse
     {
-        return $this->iCompanyCrudRepo->store($request);
+        return $this->iLibCountryCrudRepo->store($request);
     }
 
     /**
@@ -68,14 +65,13 @@ class CompanyCrudController  extends Controller {
      */
     public function edit($id,Request $request) : view
     {
-        $data = $this->iCompanyCrudRepo->index($request,$id);
+        $data = $this->iLibCountryCrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
-        $data['countries'] = $this->countries;
-        return view('admin.pages.company.list.crud.index', compact('data'));
+        return view('admin.pages.data-library.country.crud.index', compact('data'));
     }
 
     /**
-     * Update procedure for company
+     * Update procedure for libcountry
      *
      * @param Request $request
      * @param integer|string $id
@@ -83,7 +79,7 @@ class CompanyCrudController  extends Controller {
      */
     public function update(Request $request, $id) : JsonResponse
     {
-        return $this->iCompanyCrudRepo->update($request,$id);
+        return $this->iLibCountryCrudRepo->update($request,$id);
     }
 
     /**
@@ -94,7 +90,7 @@ class CompanyCrudController  extends Controller {
      */
      public function deleteList(Request $request) : JsonResponse
     {
-       return $this->iCompanyCrudRepo->deleteList($request);
+       return $this->iLibCountryCrudRepo->deleteList($request);
     }
 
 
@@ -106,7 +102,7 @@ class CompanyCrudController  extends Controller {
      */
      public function updateList(Request $request) : JsonResponse
     {
-       return $this->iCompanyCrudRepo->updateList($request);
+       return $this->iLibCountryCrudRepo->updateList($request);
     }
 
 }

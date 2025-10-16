@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_contacts', function (Blueprint $table) {
+        Schema::create('lib_countries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id');
             $table->string('name');
-            $table->string('email');
-            $table->string('mobile_number');
-            $table->json('social')->nullable();
+            $table->string('code',10);
+            $table->integer('serial');
             $table->foreignId('store_by');
             $table->foreignId('last_updated_by')->nullable();
             $table->timestamps();
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_contacts');
+        Schema::dropIfExists('lib_countries');
     }
 };

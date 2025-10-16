@@ -21,7 +21,9 @@
                                 <div class="input-group">
                                     <select class="form-control" name="country" id="country">
                                         <option value="">-- Select -- </option>
-                                        <option {{($data['item']?->country == 'Bangladesh') ? 'selected':''}} value="Bangladesh"> Bangladesh </option>
+                                        @foreach ($data['countries']  as $item)
+                                            <option {{($data['item']?->country == $item?->name) ? 'selected':''}} value="Bangladesh"> Bangladesh </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

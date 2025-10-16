@@ -19,7 +19,9 @@
                                 <div class="input-group">
                                     <select class="form-control" name="country" id="country">
                                         <option value="">-- Select -- </option>
-                                        <option value="Bangladesh"> Bangladesh </option>
+                                         @foreach ($data['countries']  as $item)
+                                            <option value="{{$item?->name}}"> {{$item?->name}} </option>
+                                         @endforeach
                                     </select>
                                 </div>
                             </div>

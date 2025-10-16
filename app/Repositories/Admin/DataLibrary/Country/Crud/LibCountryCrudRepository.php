@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Repositories\Admin\Company\List\Crud;
+namespace App\Repositories\Admin\DataLibrary\Country\Crud;
 
-use App\Http\Requests\Admin\Company\List\Crud\ValidateUpdateCompany;
-use App\Models\Company;
+use App\Http\Requests\Admin\DataLibrary\Country\Crud\ValidateUpdateLibCountry;
+use App\Models\LibCountry;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepository {
+class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCrudRepository {
 
     use BaseTrait;
     public function __construct() {
-        $this->LoadModels(['Company']);
+        $this->LoadModels(['LibCountry']);
     }
 
     /**
@@ -26,7 +26,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(model: $this->Company, id: $id);
+       return $this->getPageDefault(model: $this->LibCountry, id: $id);
     }
 
 
@@ -38,7 +38,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
      */
     public function list($request) : JsonResponse
     {
-        $model = Company::query();
+        $model = LibCountry::query();
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -56,16 +56,16 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
     public function store($request) : JsonResponse
     {
         try {
-            Company::create([
+            LibCountry::create([
                 ...$request->all(),
                 'store_by' => $request?->auth?->id,
                 'last_updated_by' => $request?->auth?->id,
-                'serial' => $this->facSrWc($this->Company)
+                'serial' => $this->facSrWc($this->LibCountry)
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
-            $this->saveError($this->getSystemError(['name' => 'Company_store_error']), $e);
+            $this->saveError($this->getSystemError(['name' => 'LibCountry_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
     }
@@ -79,13 +79,13 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
      */
     public function update($request,$id) : JsonResponse
     {
-        $row = Company::find($id);
+        $row = LibCountry::find($id);
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
         $row->fill([...$request->all(),'last_updated_by' => $request->auth->id]);
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdateCompany())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new ValidateUpdateLibCountry())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
@@ -94,7 +94,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
-                $this->saveError($this->getSystemError(['name'=>'Company_update_error']), $e);
+                $this->saveError($this->getSystemError(['name'=>'LibCountry_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
         } else {
@@ -110,7 +110,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
      */
     public function updateList($request) : JsonResponse
     {
-        $i = Company::whereIn('id',$request->ids)->select(['id','name'])->get();;
+        $i = LibCountry::whereIn('id',$request->ids)->select(['id','name'])->get();;
         $dirty = [];
         if (count($i) > 0) {
             foreach ($i as $key => $value) {
@@ -145,7 +145,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
     public function deleteList($request) : JsonResponse
     {
         $errors = [];
-        $i = Company::whereIn('id',$request->ids)->select(['id'])->get();
+        $i = LibCountry::whereIn('id',$request->ids)->select(['id'])->get();
         if (count($i) > 0) {
             // $errors = $this->checkInUse([
             //     "rows" => $i,

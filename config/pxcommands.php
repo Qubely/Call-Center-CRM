@@ -44,7 +44,8 @@ return [
                     'setup',
                     'reset',
                     'system',
-                    'company'
+                    'company',
+                    'data-library'
                 ]
             ]
         ]
@@ -52,7 +53,7 @@ return [
     'styles' => [
         'cdn' => [
             'bootstrap5' => '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />',
-            'boxIcon' => ' <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">',
+            'boxIcon' => '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" integrity="sha512-cn16Qw8mzTBKpu08X0fwhTSv02kK/FojjNLz0bwp2xJ4H+yalwzXKFw/5cLzuBZCxGWIA+95X4skzvo8STNtSg==" crossorigin="anonymous" referrerpolicy="no-referrer" />',
             'fontAwesome' => '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />',
             'jqConfirm' => '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" integrity="sha512-0V10q+b1Iumz67sVDL8LPFZEEavo6H/nBSyghr7mm9JEQkOAm91HNoZQRvQdjennBb/oEuW+8oZHVpIKq+d25g==" crossorigin="anonymous" referrerpolicy="no-referrer" />',
             'datatable5' => '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.10/css/jquery.dataTables.min.css">',
@@ -82,6 +83,7 @@ return [
         'admin.system.user' => 'admin/system/user/index',
         'admin.system.user.user-role' => 'admin/system/user/user-role/index',
         'admin.system.user.policy' => 'admin/system/user/policy/index',
-        'admin.company.list.crud' => 'admin/company/list/crud/index'
+        'admin.company.list.crud' => 'admin/company/list/crud/index',
+        'admin.data-library.country.crud' => 'admin/data-library/country/crud/index'
     ]
 ];
