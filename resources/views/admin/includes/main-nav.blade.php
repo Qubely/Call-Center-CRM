@@ -66,6 +66,9 @@
                         <li>
                             <a href="{{url('admin/data-library/system-status')}}">{{pxLang('admin.main-nav','data-library.status')}}</a>
                         </li>
+                        <li>
+                            <a href="{{url('admin/data-library/campaign-type')}}">{{pxLang('admin.main-nav','data-library.campaign-type')}}</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

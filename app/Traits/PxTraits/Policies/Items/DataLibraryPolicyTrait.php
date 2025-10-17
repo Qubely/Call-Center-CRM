@@ -19,6 +19,10 @@ trait DataLibraryPolicyTrait {
                 [
                     'name' => 'Lib Status Crud',
                     'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
+                ],
+                [
+                    'name' => 'Lib Campaign Type Crud',
+                    'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
                 ]
             ]
 

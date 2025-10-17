@@ -22,7 +22,9 @@
                                     <div class="input-group">
                                         <select type="text" class="form-control" name="type" id="type">
                                             <option value=""> -- Select -- </option>
-                                            <option {{($data['item']?->type == 'test') ? 'selected':''}} value="test"> Test </option>
+                                            @foreach ($data['campaignTypes'] as $item)
+                                                <option {{($data['item']?->type == 'test') ? 'selected':''}} value="{{$item?->name}}"> {{$item?->name}} </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
