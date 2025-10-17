@@ -2,11 +2,12 @@
 
 namespace App\Traits\PxTraits\Policies;
 
+use App\Traits\PxTraits\Policies\Items\DataLibraryPolicyTrait;
 use App\Traits\PxTraits\Policies\Items\SytemUserPolicyTrait;
 
 trait BasePolicyTrait {
 
-    use SytemUserPolicyTrait;
+    use SytemUserPolicyTrait,DataLibraryPolicyTrait;
     public function systemPolicies(){
         return [
             [
@@ -14,6 +15,9 @@ trait BasePolicyTrait {
                 'policies' => [
                     [
                         ...$this->systemUserPolicies()
+                    ],
+                    [
+                        ...$this->dataLibrayPolicies()
                     ]
                 ]
             ]

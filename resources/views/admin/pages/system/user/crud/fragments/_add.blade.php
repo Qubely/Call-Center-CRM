@@ -3,7 +3,8 @@
 </div>
 <div class="mt-4 p-3">
     @can('system_user_store')
-        <form id="frmStoreAdminUserRole" autocomplete="off">
+        <form id="frmStoreAdminUser" autocomplete="off">
+            <input type="hidden" value="system_user" name="admin_type"/>
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
