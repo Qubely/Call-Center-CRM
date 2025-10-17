@@ -6,6 +6,8 @@ use App\Repositories\BaseRepository;
 use App\Repositories\IBaseRepository;
 use Illuminate\Support\ServiceProvider;
 //vpx_imports
+use App\Repositories\Admin\Campaign\List\Crud\ICampaignCrudRepository;
+use App\Repositories\Admin\Campaign\List\Crud\CampaignCrudRepository;
 use App\Repositories\Admin\DataLibrary\SystemStatus\Crud\ILibStatusCrudRepository;
 use App\Repositories\Admin\DataLibrary\SystemStatus\Crud\LibStatusCrudRepository;
 use App\Repositories\Admin\Company\List\Crud\ICompanyCrudRepository;
@@ -29,6 +31,7 @@ class RepositoryServiceProvider extends ServiceProvider
         {
             $this->app->bind(abstract: IBaseRepository::class, concrete: BaseRepository::class);
             //vpx_attach
+            $this->app->bind(abstract: ICampaignCrudRepository::class, concrete: CampaignCrudRepository::class);
             $this->app->bind(abstract: ILibStatusCrudRepository::class, concrete: LibStatusCrudRepository::class);
             $this->app->bind(abstract: ICompanyCrudRepository::class, concrete: CompanyCrudRepository::class);
             $this->app->bind(abstract: ILibTimeZoneCrudRepository::class, concrete: LibTimeZoneCrudRepository::class);

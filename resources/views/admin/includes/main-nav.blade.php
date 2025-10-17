@@ -42,6 +42,17 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-objects-horizontal-right"></i>
+                        <span>{{pxLang('admin.main-nav','campaign.menu')}}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('admin/campaign/list')}}">{{pxLang('admin.main-nav','campaign.menu.list')}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-data"></i>
                         <span>{{pxLang('admin.main-nav','data-library.menu')}}</span>
                     </a>

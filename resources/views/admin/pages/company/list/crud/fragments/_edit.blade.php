@@ -1,5 +1,5 @@
 <div class="bg-info pl-2 page-fragment-bar">
-    <span class="text-light"> <a href="{{url('admin/system/user/user-role')}}"><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1"> {{pxLang($data['lang'],'update')}}   </span> </span>
+    <span class="text-light"> <a href="{{url('admin/company/list')}}"><span class="badge badge-info cursor-pointer"> <i class='fa-solid fa-arrow-left fs-16'></i></span></a> <span class="pt-1"> {{pxLang($data['lang'],'update')}}   </span> </span>
 </div>
 <div class="mt-4 p-3">
     @can('company_crud_edit')

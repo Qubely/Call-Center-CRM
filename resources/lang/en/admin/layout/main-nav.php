@@ -11,5 +11,7 @@ return [
     'data-library.menu' => 'Data Library',
     'data-library.country-list' => 'Countries',
     'data-library.time-zone' => 'Time Zones',
-    'data-library.status' => 'System Status'
+    'data-library.status' => 'System Status',
+    'campaign.menu' => 'Campaigns',
+    'campaign.menu.list' => 'Campaigns List'
 ];

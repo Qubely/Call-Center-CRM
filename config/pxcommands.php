@@ -45,7 +45,8 @@ return [
                     'reset',
                     'system',
                     'data-library',
-                    'company'
+                    'company',
+                    'campaign'
                 ]
             ]
         ]
@@ -86,6 +87,7 @@ return [
         'admin.data-library.country.crud' => 'admin/data-library/country/crud/index',
         'admin.data-library.time-zone.crud' => 'admin/data-library/time-zone/crud/index',
         'admin.company.list.crud' => 'admin/company/list/crud/index',
-        'admin.data-library.system-status.crud' => 'admin/data-library/system-status/crud/index'
+        'admin.data-library.system-status.crud' => 'admin/data-library/system-status/crud/index',
+        'admin.campaign.list.crud' => 'admin/campaign/list/crud/index'
     ]
 ];
