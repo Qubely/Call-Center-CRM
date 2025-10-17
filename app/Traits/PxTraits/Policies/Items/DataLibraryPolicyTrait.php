@@ -11,6 +11,10 @@ trait DataLibraryPolicyTrait {
                 [
                     'name' => 'Lib Country Crud',
                     'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
+                ],
+                 [
+                    'name' => 'Lib Time Zone Crud',
+                    'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
                 ]
             ]
 
