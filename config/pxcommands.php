@@ -43,8 +43,7 @@ return [
                     'dashboard',
                     'setup',
                     'reset',
-                    'system',
-                    'company'
+                    'system'
                 ]
             ]
         ]
@@ -81,7 +80,6 @@ return [
         'admin.user.nav' => 'admin/setup/navs/index',
         'admin.system.user' => 'admin/system/user/index',
         'admin.system.user.user-role' => 'admin/system/user/user-role/index',
-        'admin.system.user.policy' => 'admin/system/user/policy/index',
-        'admin.company.list.crud' => 'admin/company/list/crud/index'
+        'admin.system.user.policy' => 'admin/system/user/policy/index'
     ]
 ];

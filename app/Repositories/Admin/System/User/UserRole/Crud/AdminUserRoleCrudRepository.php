@@ -11,6 +11,7 @@ use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use Str;
+use DB;
 class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRoleCrudRepository {
 
     use BaseTrait;
@@ -40,6 +41,13 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
     public function list($request) : JsonResponse
     {
         $model = AdminUserRole::query();
+        $this->saveTractAction(
+            $this->getTrackData(
+                title: 'AdminUser was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                request: $request,
+                onlyTitle: true
+            )
+        );
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
@@ -56,14 +64,18 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
      */
     public function store($request) : JsonResponse
     {
+        DB::beginTransaction();
         try {
             AdminUserRole::create([
                 ...$request->all(),
                 'code' => Str::upper($request->code),
             ]);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
+            $this->saveTractAction($this->getTrackData(title: "AdminUser was created by ".$request?->auth?->name,request: $request));
+            DB::commit();
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
+            DB::rollback();
             $this->saveError($this->getSystemError(['name' => 'AdminUserRole_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
@@ -91,11 +103,15 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
+            DB::beginTransaction();
             try {
                 $row->update($request->all());
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
+                $this->saveTractAction($this->getTrackData(title: " AdminUser  ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
+                DB::commit();
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
+                DB::rollback();
                 $this->saveError($this->getSystemError(['name'=>'AdminUserRole_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
@@ -122,13 +138,22 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
                 }
             }
             if (count($dirty) > 0) {
-                foreach ($i as $key => $value) {
-                    $value->save();
+                DB::beginTransaction();
+                try {
+                    foreach ($i as $key => $value) {
+                        $value->save();
+                    }
+                    $data['extraData'] = [
+                        "inflate" => pxLang($request->lang,'','common.action_update_success')
+                    ];
+                    $this->saveTractAction($this->getTrackData(title: "AdminUser list was updated by ".$request?->auth?->name, request: $request));
+                    DB::commit();
+                    return $this->response(['type' => 'success','data' => $data]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    $this->saveError($this->getSystemError(['name' => 'AdminUser_bulk_update_error']), $e);
+                    return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
                 }
-                $data['extraData'] = [
-                    "inflate" => pxLang($request->lang,'','common.action_update_success')
-                ];
-                return $this->response(['type' => 'success','data' => $data]);
             } else {
                 return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').'  </span>']);
             }
@@ -161,14 +186,23 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
             if (count($errors) > 0) {
                 return $this->response(['type'=>'bigError','errors'=>$errors]);
             }
-            foreach ($i as $key => $value) {
-                $value->delete();
+            DB::beginTransaction();
+            try {
+                foreach ($i as $key => $value) {
+                    $value->delete();
+                }
+                $data['extraData'] = [
+                    "inflate" => pxLang($request->lang,'','common.action_delete_success'),
+                    "redirect" => null
+                ];
+                $this->saveTractAction($this->getTrackData(title: "AdminUser list was deleted by ".$request?->auth?->name, request: $request));
+                DB::commit();
+                return $this->response(['type' => 'success',"data"=>$data]);
+            } catch (\Exception $e) {
+                DB::rollback();
+                $this->saveError($this->getSystemError(['name' => 'AdminUser_store_error']), $e);
+                return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
             }
-            $data['extraData'] = [
-                "inflate" => pxLang($request->lang,'','common.action_delete_success'),
-                "redirect" => null
-            ];
-            return $this->response(['type' => 'success',"data"=>$data]);
         } else {
             return $this->response(['type' => 'noUpdate', 'title' =>  pxLang($request->lang,'','common.no_data_selected')]);
         }

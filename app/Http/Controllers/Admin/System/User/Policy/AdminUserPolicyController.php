@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\System\User\Policy;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdminUserRole;
 use App\Repositories\Admin\System\User\Policy\IAdminUserPolicyRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;

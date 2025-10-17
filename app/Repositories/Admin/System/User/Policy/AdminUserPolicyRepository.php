@@ -8,7 +8,7 @@ use App\Models\AdminUserRole;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Http\JsonResponse;
-
+use DB;
 class AdminUserPolicyRepository extends BaseRepository implements IAdminUserPolicyRepository {
 
     use BaseTrait;
@@ -45,13 +45,19 @@ class AdminUserPolicyRepository extends BaseRepository implements IAdminUserPoli
                 }
             }
             if (count($dirty) > 0) {
-                foreach ($i as $key => $value) {
-                    $value->save();
+                DB::beginTransaction();
+                try {
+                    foreach ($i as $key => $value) {
+                        $value->save();
+                    }
+                    $data['extraData'] = [ "inflate" =>  pxLang($request->lang,'','common.action_success')];
+                    DB::commit();
+                    return $this->response(['type' => 'success','data' => $data]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    $this->saveError($this->getSystemError(['name'=>'AdminUser_policy_update_error']), $e);
+                    return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
                 }
-                $data['extraData'] = [
-                    "inflate" =>  pxLang($request->lang,'','common.action_success')
-                ];
-                return $this->response(['type' => 'success','data' => $data]);
             } else {
                 return $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-success"> '.pxLang($request->lang,'','common.no_change').' </span>']);
             }
