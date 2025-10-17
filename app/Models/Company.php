@@ -12,7 +12,14 @@ class Company extends Model
     protected $table = "companies";
     protected $fillable = [
         'name',
-        //'serial'
+        'serial',
+        'country',
+        'time_zone',
+        'address',
+        'tax_id',
+        'email',
+        'store_by',
+        'last_updated_by'
     ];
     //vpx_attach
 }

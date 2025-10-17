@@ -68,6 +68,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
         try {
             Company::create([
                 ...$request->all(),
+                'serial' => $this->facSrWc($this->Company),
                 'store_by' => $request?->auth?->id,
                 'last_updated_by' => $request?->auth?->id,
                 'serial' => $this->facSrWc($this->Company)
