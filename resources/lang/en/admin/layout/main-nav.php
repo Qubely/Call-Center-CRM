@@ -10,5 +10,6 @@ return [
     'company.list' => 'Company Lists',
     'data-library.menu' => 'Data LIbrary',
     'data-library.country-list' => 'Countries',
-    'data-library.time-zone' => 'Time Zones'
+    'data-library.time-zone' => 'Time Zones',
+    'data-library.status' => 'System Status'
 ];
