@@ -48,7 +48,7 @@ class AgentApplicationCrudController  extends Controller {
     /**
      * Store procedure for comapany crud
      *
-     * @param ValidateStoreagentapplication $request
+     * @param ValidateStoreAgentApplication $request
      * @return JsonResponse
      */
     public function store(ValidateStoreAgentApplication $request): JsonResponse

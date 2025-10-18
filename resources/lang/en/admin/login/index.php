@@ -1,6 +1,6 @@
 <?php
 return [
-    'pageTitle' => 'Management Login',
+    'pageTitle' => 'Welcome User',
     'pageSubTitle' => '',
     'add' => '',
     'update' => '',

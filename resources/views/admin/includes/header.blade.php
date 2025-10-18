@@ -24,12 +24,14 @@
             </button>
             <div class="d-flex flex-row justify-content-start ms-4">
                 <div class="position-relative">
-                    @if(Auth::user()?->center)
-                        <div class="d-flex flex-row justify-content-center align-items-center">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                        @if(Auth::user()?->center)
                             <img src="{{getRowImage(Auth::user()?->center)}}" class="center-logo" />
                             <h3 class="ms-2 fs-18 fw-bold">  {{\Str::upper(Auth::user()?->center?->name)}} </h3>
-                        </div>
-                    @endif
+                        @else
+                            <h3 class="ms-2 fs-18 fw-bold"> Admin Panel </h3>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
