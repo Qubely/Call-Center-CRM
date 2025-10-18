@@ -52,7 +52,7 @@
                                 <div class="form-group text-left mb-3">
                                     <label class="form-label"> <b>{{pxLang($data['lang'],'fields.validity')}}</b> <em class="required">*</em> <span id="validity_error"></span></label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="validity" id="validity">
+                                        <input type="text" class="form-control dp" name="validity" id="validity">
                                     </div>
                                 </div>
                                 <div class="mb-3 mt-3 text-end">

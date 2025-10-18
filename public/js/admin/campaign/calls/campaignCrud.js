@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    PX?.utils?.dp();
+
     if ($('#frmStoreCampaign').length > 0) {
         let rules = {
             name: {
