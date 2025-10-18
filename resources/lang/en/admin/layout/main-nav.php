@@ -16,5 +16,7 @@ return [
     'campaign.menu' => 'Manage Campaigns',
     'campaign.menu.list' => 'Campaigns List',
     'center.menu' => 'Manage Center',
-    'center.menu.center-list' => 'Center List'
+    'center.menu.center-list' => 'Center List',
+    'agent.menu' => 'Manage Agent',
+    'agent.menu.agent-request' => 'Agent Application'
 ];

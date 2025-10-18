@@ -64,6 +64,17 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span>{{pxLang('admin.main-nav','agent.menu')}}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('admin/agent/application')}}">{{pxLang('admin.main-nav','agent.menu.agent-request')}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-data"></i>
                         <span>{{pxLang('admin.main-nav','data-library.menu')}}</span>
                     </a>

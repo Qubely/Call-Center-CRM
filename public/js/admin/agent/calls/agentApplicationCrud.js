@@ -1,31 +1,30 @@
 $(document).ready(function(){
 
-    if ($('#frmStoreAdminUser').length > 0) {
+    if ($('#frmStoreAgentApplication').length > 0) {
         let rules = {
-            admin_type: {
-                required: true,
-            },
             name: {
                 required: true,
-                maxlength: 253
-            },
-            email: {
-                required: true,
-                maxlength: 253,
-                email: true,
+                minlength: 2
             },
             mobile_number: {
                 required: true,
-                maxlength: 253
+            },
+            email: {
+                required: true,
+                email: true
             },
             image: {
                 required: true,
+            },
+            address: {
+                required: true,
+                minlength: 5
             }
         };
         PX.ajaxRequest({
-            element: 'frmStoreAdminUser',
+            element: 'frmStoreAgentApplication',
             validation: true,
-            script: 'admin/system/user',
+            script: 'admin/agent/application',
             rules,
             afterSuccess: {
                 type: 'inflate_reset_response_data',
@@ -33,32 +32,28 @@ $(document).ready(function(){
         });
     }
 
-    if ($('#frmUpdateAdminUser').length > 0) {
+    if ($('#frmUpdateAgentApplication').length > 0) {
         let rules = {
-            admin_type: {
-                required: true,
-            },
             name: {
                 required: true,
-                maxlength: 253
-            },
-            email: {
-                required: true,
-                maxlength: 253,
-                email: true,
+                minlength: 2
             },
             mobile_number: {
                 required: true,
-                maxlength: 253
             },
-            status: {
+            email: {
                 required: true,
+                email: true
+            },
+            address: {
+                required: true,
+                minlength: 5
             }
         };
         PX.ajaxRequest({
-            element: 'frmUpdateAdminUser',
+            element: 'frmUpdateAgentApplication',
             validation: true,
-            script: 'admin/system/user/'+$("#patch_id").val(),
+            script: 'admin/agent/application/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
                 type: 'inflate_redirect_response_data',
@@ -66,8 +61,8 @@ $(document).ready(function(){
         });
     }
 
-    if ($("#dtAdminUser").length > 0) {
-        const {pageLang={},policy={},user_access=[]} = PX?.config;
+    if ($("#dtAgentApplication").length > 0) {
+        const {pageLang={}} = PX?.config;
         const {table={}} = pageLang;
         let col_draft = [
             {
@@ -75,13 +70,8 @@ $(document).ready(function(){
                 title: table?.id
             },
             {
-                data: 'admin_type',
-                title: table?.admin_type,
-                visible: (user_access?.includes('SA')),
-            },
-            {
                 data: 'image',
-                title: table?.avatar
+                title: table?.image
             },
             {
                 data: 'name',
@@ -91,7 +81,7 @@ $(document).ready(function(){
                 data: 'email',
                 title: table?.email
             },
-            {
+             {
                 data: 'mobile_number',
                 title: table?.mobile_number
             },
@@ -99,6 +89,7 @@ $(document).ready(function(){
                 data: 'status',
                 title: table?.status
             },
+
             {
                 data: 'created_at',
                 title: table?.created
@@ -106,38 +97,34 @@ $(document).ready(function(){
 
             {
                 data: null,
-                title: table?.actions,
+                title: table?.action,
                 class: 'text-end',
                 render: function (data, type, row) {
-                    let str = ``;
-                    if(policy?.system_user_edit) {
-                        str +=  `<a href="${baseurl}admin/system/user/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>`
-                    }
-                    return str;
+                    return `<a href="${baseurl}admin/agent/application/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>`;
                 }
             },
         ];
-        PX.renderDataTable('dtAdminUser', {
+        PX.renderDataTable('dtAgentApplication', {
             select: true,
-            url: 'admin/system/user/list',
+            url: 'admin/agent/application/list',
             columns: col_draft,
-            pdf: [2,3,4,5]
+            pdf: [1, 2]
         });
     }
 })
 
-function dtAdminUser(table, api, op) {
+function dtAgentApplication(table, api, op) {
     PX.deleteAll({
-        element: "deleteAllAdminUser",
-        script: "admin/system/user/delete-list",
+        element: "deleteAllAgentApplication",
+        script: "admin/agent/application/delete-list",
         confirm: true,
         api,
     });
     PX.updateAll({
-        element: "updateAllAdminUser",
-        script: "admin/system/user/update-list",
+        element: "updateAllAgentApplication",
+        script: "admin/agent/application/update-list",
         confirm: true,
         dataCols: {
             key: "ids",
@@ -161,7 +148,6 @@ function dtAdminUser(table, api, op) {
             type: "inflate_response_data"
         }
     });
-    console.log(PX);
-    PX?.dowloadPdf({ ...op, btn: "downloadAdminUserPdf", dataTable: "yes" })
-    PX?.dowloadExcel({ ...op, btn: "downloadAdminUserExcel", dataTable: "yes" })
+    PX?.dowloadPdf({ ...op, btn: "downloadAgentApplicationPdf", dataTable: "yes" })
+    PX?.dowloadExcel({ ...op, btn: "downloadAgentApplicationExcel", dataTable: "yes" })
 }

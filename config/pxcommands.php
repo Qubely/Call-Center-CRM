@@ -49,7 +49,8 @@ return [
                     'data-library',
                     'company',
                     'campaign',
-                    'center'
+                    'center',
+                    'agent'
                 ]
             ]
         ]
@@ -95,6 +96,7 @@ return [
         'admin.data-library.system-status.crud' => 'admin/data-library/system-status/crud/index',
         'admin.campaign.list.crud' => 'admin/campaign/list/crud/index',
         'admin.data-library.campaign-type.crud' => 'admin/data-library/campaign-type/crud/index',
-        'admin.center.list.crud' => 'admin/center/list/crud/index'
+        'admin.center.list.crud' => 'admin/center/list/crud/index',
+        'admin.agent.application.crud' => 'admin/agent/application/crud/index'
     ]
 ];

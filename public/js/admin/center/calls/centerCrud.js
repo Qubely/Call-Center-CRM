@@ -47,7 +47,7 @@ $(document).ready(function(){
             script: 'admin/center/list/'+$("#patch_id").val(),
             rules,
             afterSuccess: {
-                type: 'inflate_response_data',
+                type: 'inflate_redirect_response_data',
             }
         });
     }
