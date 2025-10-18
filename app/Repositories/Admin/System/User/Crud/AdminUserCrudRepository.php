@@ -4,6 +4,7 @@ namespace App\Repositories\Admin\System\User\Crud;
 
 use App\Http\Requests\Admin\System\User\Crud\ValidateUpdateAdminUser;
 use App\Models\AdminUser;
+use App\Models\AdminUserRole;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
@@ -14,6 +15,9 @@ use Webpatser\Uuid\Uuid;
 use Image;
 use Hash;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRepository {
 
     use BaseTrait;
@@ -34,8 +38,10 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
      */
     public function index($request,$id=null) : array
     {
-       $query = AdminUser::query();
-       return $this->getPageDefault(model: $query, id: $id,where: $this->baseCondition);
+        $data =  ['item' => null,'type' => 'add', 'items' => []];
+        $model = $this->getAdminUserModel($request);
+        $data['userRoles'] = $this->getAdminUserRoleModel($request)->select(['id','name','code'])->get();
+        return ($id == null) ? [...$data, 'items' => $model->take(1)->select(['id'])->get()] :  [...$data, 'type' => 'edit', 'item' => $model->find($id)];
     }
 
 
@@ -47,7 +53,7 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
      */
     public function list($request) : JsonResponse
     {
-        $model = AdminUser::where($this->baseCondition);
+        $model = $this->getAdminUserModel($request);
         $this->saveTractAction(
             $this->getTrackData(
                 title: 'AdminUser was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
@@ -62,6 +68,9 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
         ->addColumn('image', function($item) {
             $image = getRowImage($item);
             return  "<img src='$image'  class='img-fluid'/>";
+        })
+        ->addColumn('can_select', function($item) use($request) {
+            return ($request->auth?->center && in_array('CO',$item?->user_access)) ? 'no':'yes';
         })
         ->editColumn('status', function($item) {
             return  ($item?->status == 'Active') ? "<span class='badge bg-success'> Active </span>" : "<span class='badge bg-danger'> Disabled </span>";
@@ -85,7 +94,8 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
             $m->name = $request->name;
             $m->mobile_number = $request->mobile_number;
             $m->email = $request->email;
-            $m->admin_type = $request->admin_type;
+            $m->center_id = $request?->auth?->center?->id;
+            $m->admin_type = ($request?->auth?->center) ? 'Center User' : $request->admin_type;
             $m->password = Hash::make('123456789');
             $m->user_access = $request->user_access;
             $path = imagePaths()['dyn_image'];
@@ -266,5 +276,39 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
         } else {
             return $this->response(['type' => 'noUpdate', 'title' =>  pxLang($request->lang,'','common.no_data_selected')]);
         }
+    }
+
+    /**
+     * Get condition admin user
+     *
+     * @param Request $request
+     * @return Builder
+     */
+    private function getAdminUserModel($request) : Builder
+    {
+        $model = AdminUser::query();
+        $model = $model->where($this->baseCondition);
+        if(in_array('CO',$request?->auth?->user_access)) {
+            $model = $model->where([['admin_type','=','Center User'],['center_id','=',$request?->auth?->center?->id]]);
+        }
+        return $model;
+    }
+
+    /**
+     * Get condition admin user role
+     *
+     * @param Request $request
+     * @return Builder
+     */
+    private function getAdminUserRoleModel($request) : Builder
+    {
+        $model = AdminUserRole::query();
+        if(in_array('CO',$request->auth->user_access)) {
+            $model = $model->whereIn('code',['CM']);
+        }
+        if(in_array('SA',$request->auth->user_access)) {
+            $model = $model->whereNotIn('code',['CO','CA','CM']);
+        }
+        return $model;
     }
 }

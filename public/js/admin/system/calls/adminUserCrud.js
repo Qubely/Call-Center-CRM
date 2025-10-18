@@ -67,7 +67,7 @@ $(document).ready(function(){
     }
 
     if ($("#dtAdminUser").length > 0) {
-        const {pageLang={},policy={}} = PX?.config;
+        const {pageLang={},policy={},user_access=[]} = PX?.config;
         const {table={}} = pageLang;
         let col_draft = [
             {
@@ -76,7 +76,8 @@ $(document).ready(function(){
             },
             {
                 data: 'admin_type',
-                title: table?.admin_type
+                title: table?.admin_type,
+                visible: (user_access?.includes('SA')),
             },
             {
                 data: 'image',

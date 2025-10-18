@@ -5,6 +5,7 @@
 <input type="hidden" id="systemPolicies" value="{{ json_encode($systemPolicies) }}" />
 @if(Auth::check())
     <input type="hidden" value="{{ Auth::user()->uuid }}" id="auth_uuid">
+    <input type="hidden" value="{{ json_encode(Auth::user()->user_access) }}" id="user_access">
 @endif
 <div id="inflate" style="position: fixed;bottom: 50px;z-index: 500000;right: 10px;width: 300px;min-height: 0;background: transparent;">
 </div>

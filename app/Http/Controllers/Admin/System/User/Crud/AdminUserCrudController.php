@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\System\User\Crud;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\System\User\Crud\ValidateStoreAdminUser;
+use App\Models\AdminUser;
 use App\Repositories\Admin\System\User\Crud\IAdminUserCrudRepository;
 use App\Traits\BaseTrait;
 use Illuminate\Contracts\View\View;
@@ -27,7 +28,6 @@ class AdminUserCrudController  extends Controller {
     {
         $data = $this->iAdminUserCrudRepo->index($request);
         $data['lang'] = $this->lang;
-        $data['userRoles'] = AdminUserRole::select(['id','name','code'])->get();
         return view('admin.pages.system.user.crud.index',compact('data'));
     }
 
@@ -64,7 +64,6 @@ class AdminUserCrudController  extends Controller {
     {
         $data = $this->iAdminUserCrudRepo->index($request,$id);
         $data['lang'] = $this->lang;
-        $data['userRoles'] = AdminUserRole::select(['id','name','code'])->get();
         return view('admin.pages.system.user.crud.index', compact('data'));
     }
 

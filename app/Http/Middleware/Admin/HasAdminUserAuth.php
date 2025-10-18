@@ -5,6 +5,7 @@ namespace App\Http\Middleware\Admin;
 use Closure;
 use App\Models\AdminUser;
 use App\Traits\BaseTrait;
+use Auth;
 class HasAdminUserAuth
 {
     /**
@@ -16,14 +17,15 @@ class HasAdminUserAuth
      */
     use BaseTrait;
     public function handle($request, Closure $next)
-    {   
-        if($request->has('auth_uuid')){
-            $user = AdminUser::where([['uuid','=',$request->auth_uuid]])->first();
-            if($user == null) {
-                return $this->response(['type' => 'noUpdate', 'title' => 'No authenticated user found']);
-            }
-            $request->merge(['auth' => $user]);
+    {
+        $user = Auth::guard('admin')->user() ?? AdminUser::where('uuid', $request->auth_uuid)->first();
+        if (! $user) {
+            return $this->response([
+                'type' => 'noUpdate',
+                'title' => $request->filled('auth_uuid') ? 'No authenticated user found' : 'Authentication required',
+            ]);
         }
+        $request->merge(['auth' => $user]);
         return $next($request);
     }
 }
