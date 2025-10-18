@@ -3,6 +3,7 @@
 namespace App\Repositories\Admin\Center\List\Crud;
 
 use App\Http\Requests\Admin\Center\List\Crud\ValidateUpdateCenter;
+use App\Models\AdminUser;
 use App\Models\Center;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
@@ -10,8 +11,8 @@ use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use Auth;
 use DB;
+use Hash;
 use Webpatser\Uuid\Uuid;
 
 class  CenterCrudRepository extends BaseRepository implements ICenterCrudRepository {
@@ -62,6 +63,9 @@ class  CenterCrudRepository extends BaseRepository implements ICenterCrudReposit
             $image = getRowImage($item);
             return  "<img src='$image'  class='img-fluid'/>";
         })
+        ->addColumn('user_count', function($item) {
+            return $item?->adminUsers->count();
+        })
         ->escapeColumns([])
         ->make(true);
     }
@@ -93,6 +97,7 @@ class  CenterCrudRepository extends BaseRepository implements ICenterCrudReposit
                 $m->extension = $extension;
             }
             $m->save();
+            $this->addCenterOwner($m,$request);
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
             $this->saveTractAction($this->getTrackData(title: "Center was created by ".$request?->auth?->name,request: $request));
             DB::commit();
@@ -252,6 +257,40 @@ class  CenterCrudRepository extends BaseRepository implements ICenterCrudReposit
         } else {
             return $this->response(['type' => 'noUpdate', 'title' =>  pxLang($request->lang,'','common.no_data_selected')]);
         }
+    }
+
+    /**
+     * Add a new center user as owner
+     *
+     * @param Center $center
+     * @param Request $request
+     * @return void
+     */
+    private function addCenterOwner($center,$request) : void
+    {
+        $m = new AdminUser;
+        $m->uuid = (string)Uuid::generate(4);
+        $m->name = $request->owner_name;
+        $m->mobile_number = $request->owner_mobile;
+        $m->email = $request->owner_email;
+        $m->center_id = $center?->id;
+        $m->admin_type = "Center User";
+        $m->password = Hash::make('123456789');
+        $m->user_access = ['CW'];
+        $path = imagePaths()['dyn_image'];
+        $image = $request->file('image');
+        if ($request->hasFile('image')) {
+            $image_link = (string) Uuid::generate(4);
+            $extension = $image->getClientOriginalExtension();
+            $image = $this->imageVersioning([
+                'image' => $image, 'path' => $path, 'image_link' => $image_link, 'extension' => $extension,
+                'appendSize' => true,
+                'onlyAppend' => $this->sizes
+            ]);
+            $m->image = $image_link;
+            $m->extension = $extension;
+        }
+        $m->save();
     }
 
 }

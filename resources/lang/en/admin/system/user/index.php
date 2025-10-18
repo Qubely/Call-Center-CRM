@@ -16,12 +16,13 @@ return [
         'email' => 'Email',
         'mobile_number' => 'Mobile Number',
         'avatar' => 'User Avatar',
-        'user_access' => 'User Access', 
+        'user_access' => 'User Access',
         'status' => 'Status'
     ],
     'table' => [
         'id' => 'ID',
         'avatar' => 'Avatar',
+        'admin_type' => 'User For',
         'name' => 'Name',
         'email' => 'Email',
         'mobile_number' => 'Mobile Number',

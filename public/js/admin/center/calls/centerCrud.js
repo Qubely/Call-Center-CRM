@@ -8,6 +8,16 @@ $(document).ready(function(){
             },
             center_address: {
                 required: true
+            },
+            owner_name: {
+                required: true,
+            },
+            owner_email: {
+                required: true,
+                email: true
+            },
+            owner_mobile: {
+                required: true,
             }
         };
         PX.ajaxRequest({
@@ -62,6 +72,11 @@ $(document).ready(function(){
                 data: 'center_address',
                 title: table?.center_address
             },
+            {
+                data: 'user_count',
+                title: table?.user_count
+            },
+
             {
                 data: 'created_at',
                 title: table?.created

@@ -17,4 +17,8 @@ class Center extends Model
         'extension'
     ];
     //vpx_attach
+    public function adminUsers()
+    {
+        return $this->hasMany(AdminUser::class,'center_id','id');
+    }
 }

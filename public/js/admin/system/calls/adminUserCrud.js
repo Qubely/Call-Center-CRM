@@ -75,6 +75,10 @@ $(document).ready(function(){
                 title: table?.id
             },
             {
+                data: 'admin_type',
+                title: table?.admin_type
+            },
+            {
                 data: 'image',
                 title: table?.avatar
             },

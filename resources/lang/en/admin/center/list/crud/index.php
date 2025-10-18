@@ -13,15 +13,18 @@ return [
     'nav' => [
         'item1' => 'Center crud'
     ],
+    'title' => [
+        'center_owner' => "Center Owner Info"
+    ],
     'fields' => [
         'name' => 'Center Name',
         'image' => 'Center Logo',
         'extension' => 'Extension',
         'center_address' => 'Center Address',
         'email' => 'Email',
-        'owner_name' => 'Owner name',
-        'owner_email' => 'Owner name',
-        'owner_mobile' => 'Owner name',
+        'owner_name' => 'Owner Name',
+        'owner_email' => 'Owner Email',
+        'owner_mobile' => 'Owner Mobile Number',
     ],
     'table' => [
         'id' => 'ID',
@@ -29,6 +32,7 @@ return [
         'image' => 'Center Logo',
         'extension' => 'Extension',
         'center_address' => 'Center Address',
+        'user_count' => 'Total Login User',
         'email' => 'Email',
         'created' => 'Created',
         'actions' => 'Actions',

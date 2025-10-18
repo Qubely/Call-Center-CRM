@@ -22,7 +22,7 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
             ['width'=> 400, 'height'=> 400,'com'=> 70],
             ['width'=> 80, 'height'=> 80,'com'=> 10],
         ];
-        $this->baseCondition = [['is_secret','=','no'],['admin_type','=','system_user']];
+        $this->baseCondition = [['is_secret','=','no']];
     }
 
     /**
@@ -87,7 +87,7 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
             $m->email = $request->email;
             $m->admin_type = $request->admin_type;
             $m->password = Hash::make('123456789');
-            $m->user_access = json_encode($request->user_access);
+            $m->user_access = $request->user_access;
             $path = imagePaths()['dyn_image'];
             $image = $request->file('image');
             if ($request->hasFile('image')) {
@@ -131,7 +131,7 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
         $row->mobile_number = $request->mobile_number;
         $row->email = $request->email;
         $row->status = $request->status;
-        $row->user_access = json_encode($request->user_access);
+        $row->user_access = $request->user_access;
         $path = imagePaths()['dyn_image'];
         $image = $request->file('image');
         if ($request->hasFile('image')) {

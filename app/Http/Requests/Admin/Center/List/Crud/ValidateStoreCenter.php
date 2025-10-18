@@ -32,6 +32,9 @@ class ValidateStoreCenter extends FormRequest
             'name'            => 'required|string|min:3|max:255',
             'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'center_address'  => 'required|string|max:255',
+            'owner_name'  => 'required|string|max:255',
+            'owner_email'  => 'required|string|max:255|email|unique:admin_users,email',
+            'owner_mobile'  => 'required|string|max:255|unique:admin_users,mobile_number'
         ];
     }
 

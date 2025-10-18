@@ -39,3 +39,7 @@ if (! function_exists('pxLang')) {
 function getPolicyKey($Str,$key) {
     return $Str::lower($Str::replace(' ','_',$key));
 }
+
+function restrictedUserCode() {
+    return ['SA','CO','CM','CA'];
+}

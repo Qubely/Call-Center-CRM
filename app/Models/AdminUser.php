@@ -53,5 +53,11 @@ class AdminUser extends Authenticatable
         return (in_array('SA',$this->user_access)) ? true : count(array_intersect($this->user_access, $permissions)) > 0;
     }
 
+
     //vpx_attach
+
+    public function center()
+    {
+        return $this->belongsTo(Center::class,'center_id','id');
+    }
 }

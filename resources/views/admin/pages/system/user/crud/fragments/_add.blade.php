@@ -37,8 +37,8 @@
                                 <div class="form-group text-left mb-3">
                                     <label class="form-label"> <b>{{pxLang($data['lang'],'fields.user_access')}} </b> <em class="required">*</em> <span id="user_access_error"></span></label>
                                     @foreach ($data['userRoles'] as $key => $item)
-                                    <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"  id="user_access_{{$item?->id}}" name="user_access[]" value="{{$item?->code}}">
+                                        <div class="form-check">
+                                            <input class="form-check-input"  type="checkbox"  id="user_access_{{$item?->id}}" name="user_access[]" value="{{$item?->code}}">
                                             <label class="form-check-label" >
                                                 {{$item?->name}}
                                             </label>

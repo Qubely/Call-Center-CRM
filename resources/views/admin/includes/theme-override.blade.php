@@ -132,4 +132,7 @@ table.dataTable.no-footer {
     background-color: #e9ecef !important;
     opacity: 1;
 }
+.center-logo {
+    max-width: 35px;
+}
 </style>

@@ -1,7 +1,6 @@
  <header id="page-topbar">
     <div class="navbar-header">
         <div class="d-flex">
-            <!-- LOGO -->
             <div class="navbar-brand-box">
                 <a href="{{url('admin/dashboard')}}" class="logo logo-dark">
                     <span class="logo-sm">
@@ -11,7 +10,6 @@
                         <img src="{{config('i.logo')}}" alt="" class="admin-logo-lg">
                     </span>
                 </a>
-
                 <a href="{{url('admin/dashboard')}}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{config('i.favicon')}}" alt="" class="admin-logo-sm">
@@ -24,6 +22,16 @@
             <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
+            <div class="d-flex flex-row justify-content-start ms-4">
+                <div class="position-relative">
+                    @if(Auth::user()?->center)
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            <img src="{{getRowImage(Auth::user()?->center)}}" class="center-logo" />
+                            <h3 class="ms-2 fs-18 fw-bold">  {{\Str::upper(Auth::user()?->center?->name)}} </h3>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
         <div class="d-flex">
             <div class="dropdown d-inline-block">

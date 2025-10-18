@@ -94,6 +94,7 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
         if(empty($row)){
             return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
         }
+        $rowRef = [...$row->toArray()];
         $row->fill([
             ...$request->all(),
             'code' => Str::upper($request->code),
