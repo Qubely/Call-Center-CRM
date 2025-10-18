@@ -106,7 +106,7 @@ class  CompanyCrudRepository extends BaseRepository implements ICompanyCrudRepos
             }
             DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 $this->saveTractAction($this->getTrackData(title: " Company ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();

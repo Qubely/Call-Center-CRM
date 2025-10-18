@@ -63,7 +63,7 @@ class  CampaignCrudRepository extends BaseRepository implements ICampaignCrudRep
      * @return JsonResponse
      */
     public function store($request) : JsonResponse
-    {   
+    {
         DB::beginTransaction();
         try {
             Campaign::create([
@@ -103,7 +103,7 @@ class  CampaignCrudRepository extends BaseRepository implements ICampaignCrudRep
             }
             DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 $this->saveTractAction($this->getTrackData(title: " Campaign ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();

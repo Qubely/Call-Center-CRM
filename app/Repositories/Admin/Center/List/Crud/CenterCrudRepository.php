@@ -1,22 +1,28 @@
 <?php
 
-namespace App\Repositories\Admin\System\User\UserRole\Crud;
+namespace App\Repositories\Admin\Center\List\Crud;
 
-use App\Http\Requests\Admin\System\User\UserRole\Crud\ValidateUpdateAdminUserRole;
-use App\Models\AdminUserRole;
+use App\Http\Requests\Admin\Center\List\Crud\ValidateUpdateCenter;
+use App\Models\Center;
 use App\Repositories\BaseRepository;
 use App\Traits\BaseTrait;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
-use Str;
+use Auth;
 use DB;
-class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRoleCrudRepository {
+use Webpatser\Uuid\Uuid;
+
+class  CenterCrudRepository extends BaseRepository implements ICenterCrudRepository {
 
     use BaseTrait;
     public function __construct() {
-        $this->LoadModels(['AdminUserRole']);
+        $this->LoadModels(['Center']);
+        $this->sizes =  [
+            ['width'=> 400, 'height'=> 400,'com'=> 70],
+            ['width'=> 80, 'height'=> 80,'com'=> 10],
+        ];
     }
 
     /**
@@ -28,7 +34,7 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
      */
     public function index($request,$id=null) : array
     {
-       return $this->getPageDefault(model: $this->AdminUserRole, id: $id);
+       return $this->getPageDefault(model: $this->Center, id: $id);
     }
 
 
@@ -40,10 +46,10 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
      */
     public function list($request) : JsonResponse
     {
-        $model = AdminUserRole::query();
+        $model = Center::query();
         $this->saveTractAction(
             $this->getTrackData(
-                title: 'AdminUser was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
+                title: 'Center was viewed by '.$request?->auth?->name.' at '.Carbon::now()->format('d M Y H:i:s A'),
                 request: $request,
                 onlyTitle: true
             )
@@ -51,6 +57,10 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
         return DataTables::of($model)
         ->editColumn('created_at', function($item) {
             return  Carbon::parse($item->created_at)->format('d-m-Y');
+        })
+        ->addColumn('image', function($item) {
+            $image = getRowImage($item);
+            return  "<img src='$image'  class='img-fluid'/>";
         })
         ->escapeColumns([])
         ->make(true);
@@ -66,17 +76,30 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
     {
         DB::beginTransaction();
         try {
-            AdminUserRole::create([
-                ...$request->all(),
-                'code' => Str::upper($request->code),
-            ]);
+            $m = new Center;
+            $m->name = $request->name;
+            $m->center_address = $request->center_address;
+            $path = imagePaths()['dyn_image'];
+            $image = $request->file('image');
+            if ($request->hasFile('image')) {
+                $image_link = (string) Uuid::generate(4);
+                $extension = $image->getClientOriginalExtension();
+                $image = $this->imageVersioning([
+                    'image' => $image, 'path' => $path, 'image_link' => $image_link, 'extension' => $extension,
+                    'appendSize' => true,
+                    'onlyAppend' => $this->sizes
+                ]);
+                $m->image = $image_link;
+                $m->extension = $extension;
+            }
+            $m->save();
             $response['extraData'] = ['inflate' => pxLang($request->lang,'','common.action_success') ];
-            $this->saveTractAction($this->getTrackData(title: "AdminUser was created by ".$request?->auth?->name,request: $request));
+            $this->saveTractAction($this->getTrackData(title: "Center was created by ".$request?->auth?->name,request: $request));
             DB::commit();
             return $this->response(['type' => 'success', 'data' => $response]);
         } catch (\Exception $e) {
             DB::rollback();
-            $this->saveError($this->getSystemError(['name' => 'AdminUserRole_store_error']), $e);
+            $this->saveError($this->getSystemError(['name' => 'Center_store_error']), $e);
             return $this->response(['type' => 'noUpdate', 'title' => pxLang($request->lang,'','common.server_wrong')]);
         }
     }
@@ -90,16 +113,34 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
      */
     public function update($request,$id) : JsonResponse
     {
-        $row = AdminUserRole::find($id);
+        $row = Center::find($id);
         if(empty($row)){
-            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">Requestd resource not found, try again </span>']);
+            return  $this->response(['type' => 'noUpdate', 'title' =>  '<span class="text-danger">'.pxLang($request->lang,'','common.no_resourse').'</span>']);
         }
-        $row->fill([
-            ...$request->all(),
-            'code' => Str::upper($request->code),
-        ]);
+        $rowRef = [...$row->toArray()];
+        $row->name = $request->name;
+        $row->center_address = $request->center_address;
+        $path = imagePaths()['dyn_image'];
+        $image = $request->file('image');
+        if ($request->hasFile('image')) {
+            $this->deleteImageVersions([
+                'path' => imagePaths()['dyn_image'],
+                'image_link' => $row->image,
+                'extension' => $row->extension,
+                'sizes' =>  $this->sizes
+            ]);
+            $image_link = (string) Uuid::generate(4);
+            $extension = $image->getClientOriginalExtension();
+            $image = $this->imageVersioning([
+                'image' => $image, 'path' => $path, 'image_link' => $image_link, 'extension' => $extension,
+                'appendSize' => true,
+                'onlyAppend' => $this->sizes
+            ]);
+            $row->image =  $image_link;
+            $row->extension = $extension;
+        }
         if($row->isDirty()){
-            $validator = Validator::make($request->all(), (new ValidateUpdateAdminUserRole())->rules($request,$row));
+            $validator = Validator::make($request->all(), (new ValidateUpdateCenter())->rules($request,$row));
             if ($validator->fails()) {
                 return $this->response(['type' => 'validation','errors' => $validator->errors()]);
             }
@@ -107,12 +148,11 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
             try {
                 $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
-                $this->saveTractAction($this->getTrackData(title: " AdminUser  ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
+                $this->saveTractAction($this->getTrackData(title: " Center ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();
                 return $this->response(['type' => 'success','data' => $data]);
             } catch (\Exception $e) {
-                DB::rollback();
-                $this->saveError($this->getSystemError(['name'=>'AdminUserRole_update_error']), $e);
+                $this->saveError($this->getSystemError(['name'=>'Center_update_error']), $e);
                 return $this->response(["type"=>"wrong","lang"=>"server_wrong"]);
             }
         } else {
@@ -128,7 +168,7 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
      */
     public function updateList($request) : JsonResponse
     {
-        $i = AdminUserRole::whereIn('id',$request->ids)->select(['id','name'])->get();;
+        $i = Center::whereIn('id',$request->ids)->select(['id','name'])->get();;
         $dirty = [];
         if (count($i) > 0) {
             foreach ($i as $key => $value) {
@@ -146,12 +186,12 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
                     $data['extraData'] = [
                         "inflate" => pxLang($request->lang,'','common.action_update_success')
                     ];
-                    $this->saveTractAction($this->getTrackData(title: "AdminUser list was updated by ".$request?->auth?->name, request: $request));
+                    $this->saveTractAction($this->getTrackData(title: "Center list was updated by ".$request?->auth?->name, request: $request));
                     DB::commit();
                     return $this->response(['type' => 'success','data' => $data]);
                 } catch (\Exception $e) {
                     DB::rollback();
-                    $this->saveError($this->getSystemError(['name' => 'AdminUser_bulk_update_error']), $e);
+                    $this->saveError($this->getSystemError(['name' => 'Center_bulk_update_error']), $e);
                     return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
                 }
             } else {
@@ -172,7 +212,7 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
     public function deleteList($request) : JsonResponse
     {
         $errors = [];
-        $i = AdminUserRole::whereIn('id',$request->ids)->select(['id'])->get();
+        $i = Center::whereIn('id',$request->ids)->select(['id'])->get();
         if (count($i) > 0) {
             // $errors = $this->checkInUse([
             //     "rows" => $i,
@@ -189,18 +229,24 @@ class AdminUserRoleCrudRepository extends BaseRepository implements IAdminUserRo
             DB::beginTransaction();
             try {
                 foreach ($i as $key => $value) {
+                    $this->deleteImageVersions([
+                        'path' => imagePaths()['dyn_image'],
+                        'image_link' => $value->image,
+                        'extension' => $value->extension,
+                        'sizes' =>  $this->sizes
+                    ]);
                     $value->delete();
                 }
                 $data['extraData'] = [
                     "inflate" => pxLang($request->lang,'','common.action_delete_success'),
                     "redirect" => null
                 ];
-                $this->saveTractAction($this->getTrackData(title: "AdminUser list was deleted by ".$request?->auth?->name, request: $request));
+                $this->saveTractAction($this->getTrackData(title: "Center list was deleted by ".$request?->auth?->name, request: $request));
                 DB::commit();
                 return $this->response(['type' => 'success',"data"=>$data]);
             } catch (\Exception $e) {
                 DB::rollback();
-                $this->saveError($this->getSystemError(['name' => 'AdminUser_store_error']), $e);
+                $this->saveError($this->getSystemError(['name' => 'Center_store_error']), $e);
                 return $this->response(['type' => 'wrong', 'lang' => 'server_wrong']);
             }
         } else {

@@ -158,7 +158,7 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
             }
             DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 $this->saveTractAction($this->getTrackData(title: " AdminUser  ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();
@@ -243,6 +243,12 @@ class AdminUserCrudRepository extends BaseRepository implements IAdminUserCrudRe
             DB::beginTransaction();
             try {
                 foreach ($i as $key => $value) {
+                    $this->deleteImageVersions([
+                        'path' => imagePaths()['dyn_image'],
+                        'image_link' => $value->image,
+                        'extension' => $value->extension,
+                        'sizes' =>  $this->sizes
+                    ]);
                     $value->delete();
                 }
                 $data['extraData'] = [

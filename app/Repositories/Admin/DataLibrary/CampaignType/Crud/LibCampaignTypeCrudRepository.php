@@ -63,7 +63,7 @@ class  LibCampaignTypeCrudRepository extends BaseRepository implements ILibCampa
      * @return JsonResponse
      */
     public function store($request) : JsonResponse
-    {   
+    {
         DB::beginTransaction();
         try {
             LibCampaignType::create([
@@ -103,7 +103,7 @@ class  LibCampaignTypeCrudRepository extends BaseRepository implements ILibCampa
             }
             DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 $this->saveTractAction($this->getTrackData(title: " LibCampaignType ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();

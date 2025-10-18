@@ -6,13 +6,15 @@ return [
     'system.core.user_role' => 'User Roles',
     'system.core.user' => 'Users',
     'system.core.user_policy' => 'User Policies',
-    'company' => 'Companies',
+    'company' => 'Manage Companies',
     'company.list' => 'Company Lists',
     'data-library.menu' => 'Data Library',
     'data-library.country-list' => 'Countries',
     'data-library.time-zone' => 'Time Zones',
     'data-library.campaign-type' => 'Campaign Type',
     'data-library.status' => 'System Status',
-    'campaign.menu' => 'Campaigns',
-    'campaign.menu.list' => 'Campaigns List'
+    'campaign.menu' => 'Manage Campaigns',
+    'campaign.menu.list' => 'Campaigns List',
+    'center.menu' => 'Manage Center',
+    'center.menu.center-list' => 'Center List'
 ];

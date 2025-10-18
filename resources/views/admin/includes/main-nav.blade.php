@@ -53,6 +53,17 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-buildings"></i>
+                        <span>{{pxLang('admin.main-nav','center.menu')}}</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('admin/center/list')}}">{{pxLang('admin.main-nav','center.menu.center-list')}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-data"></i>
                         <span>{{pxLang('admin.main-nav','data-library.menu')}}</span>
                     </a>

@@ -105,7 +105,7 @@ class  LibCountryCrudRepository extends BaseRepository implements ILibCountryCru
             }
             DB::beginTransaction();
             try {
-                $row->update($request->all());
+                $row->save();
                 $data['extraData'] = ["inflate" =>  pxLang($request->lang,'','common.action_success')];
                 $this->saveTractAction($this->getTrackData(title: " LibCountry ".$row?->name.' was updated by '.$request?->auth?->name,request: $request, row: $rowRef, type: 'to'));
                 DB::commit();
