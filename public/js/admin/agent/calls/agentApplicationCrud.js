@@ -62,8 +62,16 @@ $(document).ready(function(){
     }
 
     if ($("#dtAgentApplication").length > 0) {
-        const {pageLang={}} = PX?.config;
+        const {pageLang={},policy={}} = PX?.config;
         const {table={}} = pageLang;
+        let trigManageDoc = {
+            body: {},
+            modalCallback: 'afterManageAgentDocModal',
+            element: 'afterManageAgentDocModal',
+            script: 'admin/agent/application/crud/mange-agent-doc/display',
+            title: 'Add Document ',
+            globLoader: false
+        };
         let col_draft = [
             {
                 data: 'id',
@@ -100,9 +108,21 @@ $(document).ready(function(){
                 title: table?.action,
                 class: 'text-end',
                 render: function (data, type, row) {
-                    return `<a href="${baseurl}admin/agent/application/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                    trigManageDoc = {
+                        ...trigManageDoc,
+                        body: {id: data?.id},
+                        title: `Manage document for ${data?.name}`
+                    };
+                    let str = ``;
+                    if(policy?.agent_application_modal_view) {
+                        str += ` <span data-bs-toggle='modal' data-bs-target='.editmodal' data-edit-prop='${JSON.stringify(trigManageDoc)}' class="btn btn-outline-info btn-sm" title="Add Doc">
+                                Add Document
+                        </span>`
+                    }
+                    str += `<a href="${baseurl}admin/agent/application/${data.id}/edit" class="btn btn-outline-secondary btn-sm edit ms-2" title="Edit">
                         <i class="fas fa-pencil-alt"></i>
                     </a>`;
+                    return str;
                 }
             },
         ];

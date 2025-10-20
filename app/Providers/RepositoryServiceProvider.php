@@ -10,6 +10,8 @@ use App\Repositories\Admin\DataLibrary\AgentDoc\Crud\ILibAgentDocCrudRepository;
 use App\Repositories\Admin\DataLibrary\AgentDoc\Crud\LibAgentDocCrudRepository;
 use App\Repositories\Admin\Agent\Application\Crud\IAgentApplicationCrudRepository;
 use App\Repositories\Admin\Agent\Application\Crud\AgentApplicationCrudRepository;
+use App\Repositories\Admin\Agent\Application\Crud\Modal\ManageAgentDoc\IManageAgentDocRepository;
+use App\Repositories\Admin\Agent\Application\Crud\Modal\ManageAgentDoc\ManageAgentDocRepository;
 use App\Repositories\Admin\Center\List\Crud\ICenterCrudRepository;
 use App\Repositories\Admin\Center\List\Crud\CenterCrudRepository;
 use App\Repositories\Admin\DataLibrary\CampaignType\Crud\ILibCampaignTypeCrudRepository;
@@ -51,5 +53,6 @@ class RepositoryServiceProvider extends ServiceProvider
             $this->app->bind(abstract: IAdminUserPolicyRepository::class, concrete: AdminUserPolicyRepository::class);
             $this->app->bind(abstract: IAdminUserRoleCrudRepository::class, concrete: AdminUserRoleCrudRepository::class);
             $this->app->bind(abstract: IAdminUserCrudRepository::class, concrete: AdminUserCrudRepository::class);
+            $this->app->bind(abstract: IManageAgentDocRepository::class, concrete: ManageAgentDocRepository::class);
         }
 }

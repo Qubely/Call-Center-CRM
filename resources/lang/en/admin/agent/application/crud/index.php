@@ -17,7 +17,7 @@ return [
         'name' => 'Name',
         'mobile_number' => 'Mobile Number',
         'email' => 'Email Address',
-        'image' => 'Profile Image',
+        'image' => 'Applicant Photo',
         'address' => 'Address',
     ],
     'table' => [
@@ -25,7 +25,7 @@ return [
         'name' => 'Name',
         'mobile_number' => 'Mobile Number',
         'email' => 'Email',
-        'image' => 'Image',
+        'image' => 'Applicant Photo',
         'address' => 'Address',
         'status' => 'Status',
         'created' => 'Applied Date',

@@ -30,6 +30,13 @@ function getRowImage($row,$ext='80X80'){
     return $img;
 }
 
+function getFileUri($row,$field='document'){
+    $path = imagePaths()['dyn_image'].'/'.$row?->{$field};
+    $file = ($row?->{$field} == "" || !file_exists($path)) ? '' : url($path);
+    return $file;
+}
+
+
 if (! function_exists('pxLang')) {
     function pxLang($key='',$value='',$common='') {
         return app(\App\Services\PxCommandService::class)->pxLang($key,$value,$common);

@@ -11,9 +11,12 @@ trait AgentPolicyTrait {
                 [
                     'name' => 'Agent Application Crud',
                     'keys' => ['view','store','bulk_update','delete','pdf','excel','edit']
+                ],
+                [
+                    'name' => 'Agent Application Modal',
+                    'keys' => ['view','store','delete']
                 ]
             ]
-
         ];
     }
 }
