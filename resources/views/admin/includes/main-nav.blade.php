@@ -91,6 +91,9 @@
                         <li>
                             <a href="{{url('admin/data-library/campaign-type')}}">{{pxLang('admin.main-nav','data-library.campaign-type')}}</a>
                         </li>
+                        <li>
+                            <a href="{{url('admin/data-library/campaign-type')}}">{{pxLang('admin.main-nav','data-library.agent-doc')}}</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

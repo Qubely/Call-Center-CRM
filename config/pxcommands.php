@@ -97,6 +97,7 @@ return [
         'admin.campaign.list.crud' => 'admin/campaign/list/crud/index',
         'admin.data-library.campaign-type.crud' => 'admin/data-library/campaign-type/crud/index',
         'admin.center.list.crud' => 'admin/center/list/crud/index',
-        'admin.agent.application.crud' => 'admin/agent/application/crud/index'
+        'admin.agent.application.crud' => 'admin/agent/application/crud/index',
+        'admin.data-library.agent-doc.crud' => 'admin/data-library/agent-doc/crud/index'
     ]
 ];

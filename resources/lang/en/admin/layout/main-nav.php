@@ -13,6 +13,7 @@ return [
     'data-library.time-zone' => 'Time Zones',
     'data-library.campaign-type' => 'Campaign Type',
     'data-library.status' => 'System Status',
+    'data-library.agent-doc' => 'Agent Documents',
     'campaign.menu' => 'Manage Campaigns',
     'campaign.menu.list' => 'Campaigns List',
     'center.menu' => 'Manage Center',
